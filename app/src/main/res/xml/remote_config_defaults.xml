@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<defaults>
+  <entry>
+    <key>Constants</key>
+    <value>{   "vit_A": {"A":""},   "vit_E": {},   "vit_A_D3": {},   "vit_Devicap": {},   "oleje": {},   "olejki": {},   "alkohol": {} }</value>
+  </entry>
+  <entry>
+    <key>Devicap</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>Oleje</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>Olejki</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>Spirytus</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>Witamina_A</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>Witamina_A_D3</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>Witamina_E</key>
+    <value>true</value>
+  </entry>
+</defaults>

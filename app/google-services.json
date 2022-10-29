@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1090297144070",
+    "project_id": "kalkulator-w-recepturze",
+    "storage_bucket": "kalkulator-w-recepturze.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1090297144070:android:75395eb79aede51009f487",
+        "android_client_info": {
+          "package_name": "com.jakubolszewski.kalkulatorwrecepturzedoz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1090297144070-8vsvmcppqgfcvca467oe6bsu3v9qtr4t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKdAJ68yuflso8_1E8s1nYkh3_LG0bpK8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1090297144070-8vsvmcppqgfcvca467oe6bsu3v9qtr4t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
