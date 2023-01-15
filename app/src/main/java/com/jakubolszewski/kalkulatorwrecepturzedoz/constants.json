@@ -1,18 +1,19 @@
 {
+  "version": "1",
   "vit_A": {
     "hasco": {
-      "density" : "1.148",
-      "drops" : "28",
-      "mass_units": "45000"
+      "density": "1.148",
+      "drops": "28",
+      "mass_units": "45000.0"
     },
     "medana": {
-      "density" : "1.08",
-      "drops" : "30",
-      "mass_units": "50000"
+      "density": "1.08",
+      "drops": "30",
+      "mass_units": "50000.0"
     },
     "fagron": {
-      "density" : "",
-      "drops" : "10000",
+      "density": "0.0",
+      "drops": "10000",
       "mass_units": "0.034"
     }
   },
@@ -21,5 +22,6 @@
   "vit_Devicap": {},
   "oleje": {},
   "olejki": {},
-  "alkohol": {"a": ""}
+  "alkohol": {
+  }
 }

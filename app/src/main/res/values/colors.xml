@@ -9,5 +9,6 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="doz_orange">#F47920</color>
+    <color name="doz_orange1">#F18E47</color>
     <color name="doz_blue">#102d69</color>
 </resources>

@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.GridView
 import android.widget.Toast
-import com.jakubolszewski.kalkulatorwrecepturzedoz.GridRVAdapter
-import com.jakubolszewski.kalkulatorwrecepturzedoz.GridViewModal
+import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.GridRVAdapter
+import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.GridViewModal
 import com.jakubolszewski.kalkulatorwrecepturzedoz.R
 
 private const val ARG_PARAM1 = "param1"
@@ -96,7 +96,6 @@ class HomeFragment : Fragment() {
                 icon = R.drawable.ic_android_black_24dp
             )
         )
-
         val menuAdapter = context?.let { GridRVAdapter(courseList = substancesList, context = it) }
 
         gridView.adapter = menuAdapter

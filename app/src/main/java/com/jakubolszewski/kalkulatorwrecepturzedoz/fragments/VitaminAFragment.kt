@@ -5,20 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.GridView
+import android.widget.Toast
+import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.GridRVAdapter
+import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.GridViewModal
+import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.VitaminAGridAdapter
+import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.VitaminAGridModal
 import com.jakubolszewski.kalkulatorwrecepturzedoz.R
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [VitaminAFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class VitaminAFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
@@ -30,24 +29,62 @@ class VitaminAFragment : Fragment() {
         }
     }
 
+    private lateinit var gridView: GridView
+    private lateinit var resultList: ArrayList<VitaminAGridModal>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_vitamin_a, container, false)
+
+        val view: View = inflater.inflate(R.layout.fragment_vitamin_a, container, false)
+
+        gridView = view.findViewById(R.id.grid_vit_a)
+        resultList = ArrayList()
+        resultList.add(
+            VitaminAGridModal(
+                main_vit = "test",
+                main_vit2 = "test",
+                mass = "test",
+                volume = "test",
+                drops = "test",
+                massunits = "test",
+                howMuchTosell = "test"
+            )
+        )
+
+        resultList.add(
+            VitaminAGridModal(
+                main_vit = "test",
+                main_vit2 = "test",
+                mass = "test",
+                volume = "test",
+                drops = "test",
+                massunits = "test",
+                howMuchTosell = "test"
+            )
+        )
+        resultList.add(
+            VitaminAGridModal(
+                main_vit = "test",
+                main_vit2 = "test",
+                mass = "test",
+                volume = "test",
+                drops = "test",
+                massunits = "test",
+                howMuchTosell = "test"
+            )
+        )
+
+        val menuAdapter =
+            context?.let { VitaminAGridAdapter(resultsList = resultList, context = it) }
+
+        gridView.adapter = menuAdapter
+
+        return view
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment VitaminAFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             VitaminAFragment().apply {

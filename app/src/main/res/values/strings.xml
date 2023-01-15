@@ -1,5 +1,40 @@
 <resources>
     <string name="app_name">Kalkulator w recepturze</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="vitaminum_a">Witamina A</string>
+    <string name="wybierz_producenta">Wybierz producenta</string>
+    <string name="wybierz_jednostk">Wybierz jednostkę</string>
+    <string name="wybierz_jednostke">Wybierz jednostke</string>
+    <string name="podaj_warto_w">Ilość przepisana na recepcie</string>
+    <string name="oblicz">Oblicz</string>
+    <string name="masa_g">Masa (g)</string>
+    <string name="obj_to_ml">Objętość (ml)</string>
+    <string name="todo">TODO</string>
+    <string name="mo_esz_te_u_y_innych">Możesz też użyć innych  </string>
+    <string name="jednostek_masy_j_m">Jednostki masy (j.m.)</string>
+    <string name="ilosc_ktopli">Ilość kropli</string>
+    <string name="wczytywanie">wczytywanie</string>
+    <string name="dostepnych_witamin"> dostępnych witamin</string>
+    <string name="vitaminum_e">Vitaminum E</string>
+    <string name="wybierz_olejek">Wybierz olejek</string>
+    <string name="olejki">Olejki</string>
+    <string name="vit_a_plus_d3">vitaminum A +D3</string>
+    <string name="info">Informacje</string>
+    <string name="version">Aktualna wersja: 0.3</string>
+    <string name="contact">Email: j.olszewski05@gmail.com</string>
+    <string name="changelog">Ostatnio dodane</string>
+    <string name="feedback">Zgłoszenie</string>
+    <string name="imie">Imię</string>
+    <string name="email">Email</string>
+    <string name="wiadomosc">Wiadomość</string>
+    <string name="button_details">Pokaż szczegóły widomości</string>
+    <string name="button_send">Wyślij</string>
+    <string name="oleje">Oleje</string>
+    <string name="wybierz_olej">Wybierz olej</string>
+    <string name="vitaminum_devicap">Devicap</string>
+    <string name="alcohol">Spirytus</string>
+    <string name="podaj_gestosc">Podaj gestość</string>
+    <string name="podaj_stezenie_w_aptece">Podaj stężenie spirytusu, \nktórego chcesz użyć</string>
+    <string name="dimeticonum">Dimeticonum</string>
+    <string name="nystatyna">Nystatyna</string>
 </resources>
