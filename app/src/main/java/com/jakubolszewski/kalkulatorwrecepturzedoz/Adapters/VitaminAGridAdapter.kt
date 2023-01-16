@@ -1,17 +1,15 @@
 package com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.ImageView
 import android.widget.TextView
 import com.jakubolszewski.kalkulatorwrecepturzedoz.R
 
 internal class VitaminAGridAdapter(
-    private val resultsList: List<VitaminAGridModal>,
+    private val resultsList: List<VitaminAGridModel>,
     private val context: Context
 ) :
     BaseAdapter() {
@@ -57,8 +55,8 @@ internal class VitaminAGridAdapter(
         main_vit_TV.text = resultsList[position].main_vit
         main_vit2_TV.text = resultsList[position].main_vit2
         mass_TV.text = resultsList[position].mass
-        volume_TV.text = resultsList[position].main_vit
-        drops_TV.text = resultsList[position].volume
+        volume_TV.text = resultsList[position].volume
+        drops_TV.text = resultsList[position].drops
         massunits_TV.text = resultsList[position].massunits
         howMuchTosell_TV.text = resultsList[position].howMuchTosell
 

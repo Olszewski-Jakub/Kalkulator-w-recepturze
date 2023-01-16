@@ -4,13 +4,13 @@ package com.jakubolszewski.kalkulatorwrecepturzedoz.fragments
 
 import android.os.Bundle
 import android.preference.PreferenceManager
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.GridView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.GridRVAdapter
 import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.GridViewModal
 import com.jakubolszewski.kalkulatorwrecepturzedoz.R

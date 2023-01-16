@@ -14,7 +14,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.DBHelper
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.VitAModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.fragments.HomeFragment
@@ -26,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var dbHelper: DBHelper
+    private var TAG:String = "MainActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -53,17 +53,11 @@ class MainActivity : AppCompatActivity() {
         }, 2000)
 
 
-        val fragment = SplashScreenFragment()
-        fragment.listener = {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.container, HomeFragment.newInstance(), "Home")
-                .commit()
-        }
+
     }
 
 
-    fun fetch_and_save(): Boolean {
+    fun fetch_and_save() {
         val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
         val configSettings = remoteConfigSettings {
             minimumFetchIntervalInSeconds = 1
@@ -75,40 +69,40 @@ class MainActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val updated = task.result
-                    Log.d("TAG", "Config params updated: $updated")
-                    Toast.makeText(
-                        this, "Fetch and activate succeeded",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Log.d(TAG, "Config params updated: $updated")
+                    Log.d(TAG, "Fetch and activate succeeded")
+                    val constans: String = remoteConfig.getString("Constants")
+                    Log.d(TAG,constans)
+                    updateDataBase(constans)
+                    val b_witamina_A: Boolean = remoteConfig.getBoolean("Witamina_A");
+                    val b_witamina_E: Boolean = remoteConfig.getBoolean("Witamina_E");
+                    val b_witamina_A_D3: Boolean = remoteConfig.getBoolean("Witamina_A_D3");
+                    val b_Devicap: Boolean = remoteConfig.getBoolean("Devicap");
+                    val b_Spirytus: Boolean = remoteConfig.getBoolean("Spirytus");
+                    val b_Olejki: Boolean = remoteConfig.getBoolean("Olejki");
+                    val b_Oleje: Boolean = remoteConfig.getBoolean("Oleje");
+                    val prefs =
+                        PreferenceManager.getDefaultSharedPreferences(this) // getActivity() for Fragment
+
+                    prefs.edit().putBoolean("witamina_A", b_witamina_A).apply()
+                    prefs.edit().putBoolean("witamina_E", b_witamina_E).apply()
+                    prefs.edit().putBoolean("witamina_A_D3", b_witamina_A_D3).apply()
+                    prefs.edit().putBoolean("devicap", b_Devicap).apply()
+                    prefs.edit().putBoolean("spirytus", b_Spirytus).apply()
+                    prefs.edit().putBoolean("oleje", b_Olejki).apply()
+                    prefs.edit().putBoolean("olejki", b_Oleje).apply()
+
+                    val fragment = SplashScreenFragment()
+                    fragment.listener = {
+                        supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.container, HomeFragment.newInstance(), "Home")
+                            .commit()
+                    }
                 } else {
-                    Toast.makeText(
-                        this, "Fetch failed",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Log.d(TAG,"Fetch failed")
                 }
             }
-
-        val constans: String = remoteConfig.getString("Constants")
-        updateDataBase(constans)
-        val b_witamina_A: Boolean = remoteConfig.getBoolean("Witamina_A");
-        val b_witamina_E: Boolean = remoteConfig.getBoolean("Witamina_E");
-        val b_witamina_A_D3: Boolean = remoteConfig.getBoolean("Witamina_A_D3");
-        val b_Devicap: Boolean = remoteConfig.getBoolean("Devicap");
-        val b_Spirytus: Boolean = remoteConfig.getBoolean("Spirytus");
-        val b_Olejki: Boolean = remoteConfig.getBoolean("Olejki");
-        val b_Oleje: Boolean = remoteConfig.getBoolean("Oleje");
-        val prefs =
-            PreferenceManager.getDefaultSharedPreferences(this) // getActivity() for Fragment
-
-        prefs.edit().putBoolean("witamina_A", b_witamina_A).apply()
-        prefs.edit().putBoolean("witamina_E", b_witamina_E).apply()
-        prefs.edit().putBoolean("witamina_A_D3", b_witamina_A_D3).apply()
-        prefs.edit().putBoolean("devicap", b_Devicap).apply()
-        prefs.edit().putBoolean("spirytus", b_Spirytus).apply()
-        prefs.edit().putBoolean("oleje", b_Olejki).apply()
-        prefs.edit().putBoolean("olejki", b_Oleje).apply()
-
-        return false;
     }
 
     fun JSONObject.toMap(): Map<String, *> = keys().asSequence().associateWith {
@@ -123,6 +117,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //TODO: Database is unable to update records
+    // "android.database.sqlite.SQLiteConstraintException: UNIQUE constraint failed: tbl_vit_a.id (code 1555 SQLITE_CONSTRAINT_PRIMARYKEY)"
     private fun updateDataBase(jsonString: String) {
         val jsonObj = JSONObject(jsonString)
         val jsonMap = jsonObj.toMap()
