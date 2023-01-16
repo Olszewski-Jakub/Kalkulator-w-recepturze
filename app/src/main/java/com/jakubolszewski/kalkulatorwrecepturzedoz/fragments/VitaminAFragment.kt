@@ -5,8 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
 import android.widget.GridView
+import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.VitaminAGridAdapter
 import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.VitaminAGridModel
@@ -35,7 +39,9 @@ class VitaminAFragment : Fragment() {
     private lateinit var resultList: ArrayList<VitaminAGridModel>
     private lateinit var companySpinner: Spinner
     private lateinit var unitSpinner: Spinner
-
+    private lateinit var calcButton: Button
+    private lateinit var editText: EditText
+    private lateinit var backImgView: ImageView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,6 +53,12 @@ class VitaminAFragment : Fragment() {
         dbHelper = activity?.let { DBHelper(it) }!!
         var vitAList: ArrayList<VitAModel> = ArrayList()
         vitAList = dbHelper.getAllVitA()
+
+        companySpinner = view.findViewById(R.id.spinner_Company)
+        unitSpinner = view.findViewById(R.id.spinner_unit)
+        calcButton = view.findViewById(R.id.button_calc)
+        editText = view.findViewById(R.id.editText_amount)
+        backImgView = view.findViewById(R.id.imageView_arrow)
 
         val companies: ArrayList<String> = ArrayList()
         companies.add("Wybierz")
@@ -60,8 +72,6 @@ class VitaminAFragment : Fragment() {
         units.add("Vit. A liq (ml)")
         units.add("Vit. A (j.m.)")
 
-        companySpinner = view.findViewById(R.id.spinner_Company)
-        unitSpinner = view.findViewById(R.id.spinner_unit)
 
         val companyAdapter: ArrayAdapter<String> = ArrayAdapter<String>(
             requireActivity(),
@@ -84,46 +94,64 @@ class VitaminAFragment : Fragment() {
         gridView = view.findViewById(R.id.grid_vit_a)
         resultList = ArrayList()
 
-        val Vitamins: Map<String,VitaminAGridModel> = VitaminACalculations(
-            company = 1,
-            units = 0,
-            amount = 10.0,
-            vitAList = vitAList
-        ).calculate()
 
-        Vitamins["Vit1"]?.let {
-            resultList.add(
-                it
-            )
+        calcButton.setOnClickListener { view ->
+            if (editText.text.isNotBlank()) {
+                var amount: Double = editText.text.toString().toDouble()
+                var company: Int = -1
+                var unit: Int = -1
+
+                when (companySpinner.selectedItem.toString()) {
+                    "hasco" -> company = 0
+                    "medana" -> company = 1
+                    "fagron" -> company = 2
+                }
+
+                when (unitSpinner.selectedItem.toString()) {
+                    units[1] -> unit = 0
+                    units[2] -> unit = 2
+                    units[3] -> unit = 1
+                }
+
+                resultList.clear()
+                val Vitamins: Map<String, VitaminAGridModel> = VitaminACalculations(
+                    company = company,
+                    units = unit,
+                    amount = amount,
+                    vitAList = vitAList
+                ).calculate()
+
+                Vitamins["Vit1"]?.let {
+                    resultList.add(
+                        it
+                    )
+                }
+                Vitamins["Vit2"]?.let {
+                    resultList.add(
+                        it
+                    )
+                }
+                Vitamins["Vit3"]?.let {
+                    resultList.add(
+                        it
+                    )
+                }
+                val menuAdapter =
+                    context?.let { VitaminAGridAdapter(resultsList = resultList, context = it) }
+
+                gridView.adapter = menuAdapter
+            }
+
+
         }
-        Vitamins["Vit2"]?.let {
-            resultList.add(
-                it
-            )
-        }
-        Vitamins["Vit3"]?.let {
-            resultList.add(
-                it
-            )
+
+        backImgView.setOnClickListener { view ->
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.container, HomeFragment())
+            transaction.commit()
         }
 
 
-        resultList.add(
-            VitaminAGridModel(
-                main_vit = "test",
-                main_vit2 = "test",
-                mass = "test",
-                volume = "test",
-                drops = "test",
-                massunits = "test",
-                howMuchTosell = "test"
-            )
-        )
-
-        val menuAdapter =
-            context?.let { VitaminAGridAdapter(resultsList = resultList, context = it) }
-
-        gridView.adapter = menuAdapter
 
         return view
     }

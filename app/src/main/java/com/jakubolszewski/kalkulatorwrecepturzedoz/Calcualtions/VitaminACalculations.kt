@@ -221,15 +221,93 @@ class VitaminACalculations(
             howMuchTosell = ""
         )
         return mapOf("Vit1" to vitModel1, "Vit2" to vitModel2, "Vit3" to vitModel3)
-//        return mapOf("Vit1" to vitModel1, "Vit2" to vitModel1, "Vit3" to vitModel1)
     }
 
     private fun Fagron(): Map<String, VitaminAGridModel> {
-        val values = hashMapOf<String, Double>()
 
+        val density = vitAList.get(2).density
+        val mass_units = vitAList.get(2).mass_units
+        val drops = vitAList.get(2).drops
+        fun mass_unit() {
 
+            var dropsFagron = round(amount / drops)
+            var gramsFagron = round(dropsFagron * mass_units * 100) / 100
+            vitModel1 = VitaminAGridModel(
+                main_vit = "Fagron",
+                main_vit2 = vitAList[2].density.toString(),
+                mass = gramsFagron.toString(),
+                volume = "",
+                drops = dropsFagron.toString(),
+                massunits = amount.toString(),
+                howMuchTosell = ""
+            )
 
+            val massUnitHasco = vitModel1.massunits.toDouble()
+            val volumeHasco = round(massUnitHasco / vitAList[0].mass_units * 100) / 100
+            val dropsHasco = round(volumeHasco * vitAList[0].drops)
+            val gramsHasco = round(volumeHasco * vitAList[0].density * 100) / 100
+
+            vitModel2 = VitaminAGridModel(
+                main_vit = "Hasco",
+                main_vit2 = vitAList[0].density.toString(),
+                mass = gramsHasco.toString(),
+                volume = volumeHasco.toString(),
+                drops = dropsHasco.toString(),
+                massunits = massUnitHasco.toString(),
+                howMuchTosell = ""
+            )
+
+            val massUnitMedana = vitModel1.massunits.toDouble()
+            val volumeMedna = round(massUnitMedana / vitAList[1].mass_units * 100) / 100
+            val dropsMedana = round(volumeMedna * vitAList[1].drops)
+            val gramsMedana = round(volumeMedna * vitAList[1].density * 100) / 100
+            vitModel3 = VitaminAGridModel(
+                main_vit = "Medana",
+                main_vit2 = vitAList[1].density.toString(),
+                mass = gramsMedana.toString(),
+                volume = volumeMedna.toString(),
+                drops = dropsMedana.toString(),
+                massunits = massUnitMedana.toString(),
+                howMuchTosell = ""
+            )
+        }
+        vitModel1 = VitaminAGridModel(
+            main_vit = "Zmień jednonstkę",
+            main_vit2 = "j.m",
+            mass = "Null",
+            volume = "Null",
+            drops = "Null",
+            massunits = "Null",
+            howMuchTosell = "Null"
+        )
+        vitModel2 = VitaminAGridModel(
+            main_vit = "Zmień jednonstkę",
+            main_vit2 = "j.m",
+            mass = "Null",
+            volume = "Null",
+            drops = "Null",
+            massunits = "Null",
+            howMuchTosell = "Null"
+        )
+        vitModel3 = VitaminAGridModel(
+            main_vit = "Zmień jednonstkę",
+            main_vit2 = "j.m",
+            mass = "Null",
+            volume = "Null",
+            drops = "Null",
+            massunits = "Null",
+            howMuchTosell = "Null"
+        )
+
+        when (units) {
+            1 -> mass_unit()
+            else -> {
+                Log.d(TAG, "Unit Id outside of range. Couldn't perform calculations")
+            }
+
+        }
         return mapOf("Vit1" to vitModel1, "Vit2" to vitModel2, "Vit3" to vitModel3)
+
     }
 
     fun calculate(): Map<String, VitaminAGridModel> {
