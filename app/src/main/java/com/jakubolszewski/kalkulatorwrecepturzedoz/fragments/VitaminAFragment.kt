@@ -85,9 +85,9 @@ class VitaminAFragment : Fragment() {
         resultList = ArrayList()
 
         val Vitamins: Map<String,VitaminAGridModel> = VitaminACalculations(
-            company = 0,
-            units = 1,
-            amount = 100000.0,
+            company = 1,
+            units = 0,
+            amount = 10.0,
             vitAList = vitAList
         ).calculate()
 
