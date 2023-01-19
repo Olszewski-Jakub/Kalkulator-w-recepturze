@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.GridView
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.GridRVAdapter
@@ -33,6 +34,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var gridView: GridView
     private lateinit var substancesList: ArrayList<GridViewModal>
+    private lateinit var settings: ImageView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,8 +42,11 @@ class HomeFragment : Fragment() {
 
         val view: View = inflater.inflate(R.layout.fragment_home, container, false)
 
+        settings = view.findViewById(R.id.settings)
+
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
+        //Gets the value of the key "substances" from the shared preferences to check if button is turned on or off
         val buttonState = ArrayList<Boolean>()
         buttonState.add(prefs.getBoolean("witamina_A", true))
         buttonState.add(prefs.getBoolean("Witamina_E", true))
@@ -51,7 +56,9 @@ class HomeFragment : Fragment() {
         buttonState.add(prefs.getBoolean("Olejki", true))
         buttonState.add(prefs.getBoolean("Oleje", true))
 
+        //Add the substances to the list then pass it to the adapter
         gridView = view.findViewById(R.id.grid)
+        gridView.numColumns = prefs.getInt("grid_columns", 2)
         substancesList = ArrayList()
 
         substancesList.add(
@@ -98,8 +105,8 @@ class HomeFragment : Fragment() {
         )
         val menuAdapter = context?.let { GridRVAdapter(courseList = substancesList, context = it) }
 
+        //Set the adapter to the grid view
         gridView.adapter = menuAdapter
-
         gridView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
 
             Toast.makeText(
@@ -109,7 +116,7 @@ class HomeFragment : Fragment() {
 
             var fragment: Fragment? = null
 
-
+            //Checks if the button is turned on or off
             when (position) {
                 0 -> if (isActive(position = 0, state = buttonState)) {
                     fragment = VitaminAFragment()
@@ -133,7 +140,7 @@ class HomeFragment : Fragment() {
                     fragment = VitaminAFragment()
                 }
             }
-
+            //Replace the fragment
             val transaction = parentFragmentManager.beginTransaction()
             if (fragment != null) {
                 transaction.replace(R.id.container, fragment)
@@ -146,6 +153,15 @@ class HomeFragment : Fragment() {
             }
             transaction.commit()
         }
+
+        //Go back to main menu
+        settings.setOnClickListener { view ->
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.container, SettingsFragment())
+            transaction.commit()
+        }
+
+
         return view
     }
 
@@ -160,6 +176,7 @@ class HomeFragment : Fragment() {
             }
     }
 
+    //Functions checks if button is active
     private fun isActive(position: Int, state: ArrayList<Boolean>): Boolean {
         if (state[position]) {
             return true

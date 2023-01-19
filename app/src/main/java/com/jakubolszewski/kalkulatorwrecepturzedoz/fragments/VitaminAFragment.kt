@@ -59,7 +59,7 @@ class VitaminAFragment : Fragment() {
         calcButton = view.findViewById(R.id.button_calc)
         editText = view.findViewById(R.id.editText_amount)
         backImgView = view.findViewById(R.id.imageView_arrow)
-
+        // Create an ArrayAdapter using the string array and a default spinner layout
         val companies: ArrayList<String> = ArrayList()
         companies.add("Wybierz")
         companies.add(vitAList.get(0).company)
@@ -94,8 +94,9 @@ class VitaminAFragment : Fragment() {
         gridView = view.findViewById(R.id.grid_vit_a)
         resultList = ArrayList()
 
-
+        //Start the calculations with specified parameters on button click
         calcButton.setOnClickListener { view ->
+            //Check if all fields are filled
             if (editText.text.isNotBlank()) {
                 var amount: Double = editText.text.toString().toDouble()
                 var company: Int = -1
@@ -144,15 +145,12 @@ class VitaminAFragment : Fragment() {
 
 
         }
-
+        //Go back to main menu
         backImgView.setOnClickListener { view ->
             val transaction = parentFragmentManager.beginTransaction()
             transaction.replace(R.id.container, HomeFragment())
             transaction.commit()
         }
-
-
-
         return view
     }
 

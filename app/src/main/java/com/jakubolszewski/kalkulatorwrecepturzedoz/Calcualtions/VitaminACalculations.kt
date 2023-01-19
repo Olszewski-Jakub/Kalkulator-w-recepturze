@@ -20,6 +20,7 @@ class VitaminACalculations(
     lateinit var vitModel2: VitaminAGridModel
     lateinit var vitModel3: VitaminAGridModel
 
+    // Function to calculate Hasco
     private fun Hasco(): Map<String, VitaminAGridModel> {
         val density = vitAList.get(0).density
         val mass_units = vitAList.get(0).mass_units
@@ -120,10 +121,11 @@ class VitaminACalculations(
             howMuchTosell = ""
         )
 
-
+        //return map of 3 vitA models
         return mapOf("Vit1" to vitModel1, "Vit2" to vitModel2, "Vit3" to vitModel3)
     }
 
+    // Function to calculate Medana
     private fun Medana(): Map<String, VitaminAGridModel> {
         val density = vitAList.get(1).density
         val mass_units = vitAList.get(1).mass_units
@@ -220,9 +222,11 @@ class VitaminACalculations(
             massunits = massUnitFagron.toString(),
             howMuchTosell = ""
         )
+        //return map of 3 vitA models
         return mapOf("Vit1" to vitModel1, "Vit2" to vitModel2, "Vit3" to vitModel3)
     }
 
+    // Function to calculate Fagron
     private fun Fagron(): Map<String, VitaminAGridModel> {
 
         val density = vitAList.get(2).density
@@ -306,12 +310,13 @@ class VitaminACalculations(
             }
 
         }
+        //return map of 3 vitA models
         return mapOf("Vit1" to vitModel1, "Vit2" to vitModel2, "Vit3" to vitModel3)
 
     }
 
     fun calculate(): Map<String, VitaminAGridModel> {
-
+        //Choose company
         when (company) {
             0 -> return Hasco()
             1 -> return Medana()
@@ -320,7 +325,7 @@ class VitaminACalculations(
                 Log.d(TAG, "Company Id outside of range. Couldn't perform calculations")
             }
         }
-
+        //Return error Map of VitAGridModels to be used in the grid
         return mapOf(
             "Vit1" to VitaminAGridModel(
                 main_vit = "Error",

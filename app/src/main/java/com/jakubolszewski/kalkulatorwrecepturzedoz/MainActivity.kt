@@ -25,11 +25,12 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var dbHelper: DBHelper
-    private var TAG:String = "MainActivity"
+    private var TAG: String = "MainActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        // Obtain the FirebaseAnalytics instance.
+        //Initialize Firebase
         FirebaseApp.initializeApp(this)
         firebaseAnalytics = Firebase.analytics
         if (savedInstanceState == null) {
@@ -38,42 +39,30 @@ class MainActivity : AppCompatActivity() {
                 .add(R.id.container, SplashScreenFragment.newInstance(), "Home")
                 .commit()
         }
-
+        // Initialize SQLite database
         dbHelper = DBHelper(this)
+
         fetch_and_save()
-
-        val mainLooperHandler = Handler(Looper.getMainLooper())
-
-        mainLooperHandler.postDelayed(Runnable {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.container, HomeFragment.newInstance(), "Home")
-                .commit()
-
-        }, 2000)
-
-
-
     }
 
 
-    fun fetch_and_save() {
+    private fun fetch_and_save() {
+        //Initialize Firebase Remote Config
         val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
         val configSettings = remoteConfigSettings {
             minimumFetchIntervalInSeconds = 1
         }
         remoteConfig.setConfigSettingsAsync(configSettings)
         remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
-
+        //Fetch data from Firebase Remote Config
         remoteConfig.fetchAndActivate()
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val updated = task.result
                     Log.d(TAG, "Config params updated: $updated")
                     Log.d(TAG, "Fetch and activate succeeded")
-                    val constans: String = remoteConfig.getString("Constants")
-                    Log.d(TAG,constans)
-                    updateDataBase(constans)
+
+                    //Save boolean values according button states to SharedPreferences
                     val b_witamina_A: Boolean = remoteConfig.getBoolean("Witamina_A");
                     val b_witamina_E: Boolean = remoteConfig.getBoolean("Witamina_E");
                     val b_witamina_A_D3: Boolean = remoteConfig.getBoolean("Witamina_A_D3");
@@ -84,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                     val prefs =
                         PreferenceManager.getDefaultSharedPreferences(this) // getActivity() for Fragment
 
+
                     prefs.edit().putBoolean("witamina_A", b_witamina_A).apply()
                     prefs.edit().putBoolean("witamina_E", b_witamina_E).apply()
                     prefs.edit().putBoolean("witamina_A_D3", b_witamina_A_D3).apply()
@@ -92,19 +82,18 @@ class MainActivity : AppCompatActivity() {
                     prefs.edit().putBoolean("oleje", b_Olejki).apply()
                     prefs.edit().putBoolean("olejki", b_Oleje).apply()
 
-                    val fragment = SplashScreenFragment()
-                    fragment.listener = {
-                        supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.container, HomeFragment.newInstance(), "Home")
-                            .commit()
-                    }
+                    //Save data from Firebase Remote Config to SQLite database
+                    val constans: String = remoteConfig.getString("Constants")
+                    Log.d(TAG, constans)
+                    updateDataBase(constans)
+
+
                 } else {
-                    Log.d(TAG,"Fetch failed")
+                    Log.d(TAG, "Fetch failed")
                 }
             }
     }
-
+    //Convert JSON String to Map
     fun JSONObject.toMap(): Map<String, *> = keys().asSequence().associateWith {
         when (val value = this[it]) {
             is JSONArray -> {
@@ -120,13 +109,14 @@ class MainActivity : AppCompatActivity() {
     //TODO: Database is unable to update records
     // "android.database.sqlite.SQLiteConstraintException: UNIQUE constraint failed: tbl_vit_a.id (code 1555 SQLITE_CONSTRAINT_PRIMARYKEY)"
     private fun updateDataBase(jsonString: String) {
+        //Convert JSON String to Map
         val jsonObj = JSONObject(jsonString)
         val jsonMap = jsonObj.toMap()
-
+        //Save data from Firebase Remote Config to SQLite database
         var vitaminAData: String = jsonMap.getValue("vit_A").toString()
         val vitaminAJsonObject = JSONObject(vitaminAData)
         val vitaminAMap = vitaminAJsonObject.toMap()
-
+        //Crearte Map if different values of VitA
         convertVItA(
             JSONObject(vitaminAMap["hasco"].toString()).toMap(),
             JSONObject(vitaminAMap["medana"].toString()).toMap(),
@@ -140,6 +130,7 @@ class MainActivity : AppCompatActivity() {
         medanaMap: Map<String, *>,
         fagronMap: Map<String, *>
     ) {
+        //Create Map of VitA models to save in database
         val hascoModel = VitAModel(
             id = 0,
             company = "hasco",
@@ -168,7 +159,17 @@ class MainActivity : AppCompatActivity() {
         if (hasco_status > -1 && medana_status > -1 && fagron_status > -1) {
             //TODO() Remove before deployment
             Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+
         }
+        //Update data in database
+        dbHelper.updateVitA(hascoModel)
+        dbHelper.updateVitA(medanaModel)
+        dbHelper.updateVitA(fagronModel)
+        Toast.makeText(this, "Success Update", Toast.LENGTH_SHORT).show()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container, HomeFragment.newInstance(), "Home")
+            .commit()
     }
 
 }

@@ -1,5 +1,6 @@
 package com.jakubolszewski.kalkulatorwrecepturzedoz.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 
+@SuppressLint("CustomSplashScreen")
 class SplashScreenFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
@@ -38,12 +40,11 @@ class SplashScreenFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        // Inflate the layout for this fragment
         var view: View = inflater.inflate(R.layout.fragment_splash_screen, container, false)
         var progressBar: ProgressBar = view.findViewById(R.id.progressBar)
+        progressBar.visibility = View.VISIBLE
 
-        Handler().postDelayed({
-        }, 1000)
 
         return view
     }

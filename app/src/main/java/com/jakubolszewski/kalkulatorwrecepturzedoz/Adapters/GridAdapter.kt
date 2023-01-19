@@ -43,7 +43,7 @@ internal class GridRVAdapter(
             convertView = layoutInflater!!.inflate(R.layout.gridview_item, null)
         }
         iconIV = convertView!!.findViewById(R.id.icon)
-        substanceTV = convertView!!.findViewById(R.id.substance)
+        substanceTV = convertView.findViewById(R.id.substance)
         iconIV.setImageResource(courseList.get(position).icon)
         substanceTV.setText(courseList.get(position).substance)
         return convertView

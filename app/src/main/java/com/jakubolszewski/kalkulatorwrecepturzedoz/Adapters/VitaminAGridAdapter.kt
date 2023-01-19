@@ -12,6 +12,7 @@ internal class VitaminAGridAdapter(
     private val resultsList: List<VitaminAGridModel>,
     private val context: Context
 ) :
+    //BaseAdapter is a class that is used to create a custom adapter for a listview
     BaseAdapter() {
     private var layoutInflater: LayoutInflater? = null
     private lateinit var main_vit_TV: TextView
@@ -22,36 +23,40 @@ internal class VitaminAGridAdapter(
     private lateinit var massunits_TV: TextView
     private lateinit var howMuchTosell_TV: TextView
 
-
+    //This method returns the number of items in the list
     override fun getCount(): Int {
         return resultsList.size
     }
-
+    //This method returns the item at a given position
     override fun getItem(position: Int): Any? {
         return null
     }
-
+    //This method returns the item id at a given position
     override fun getItemId(position: Int): Long {
         return 0
     }
-
+    //This method returns the view at a given position
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
         var convertView = convertView
+        //Get the current item from ListView if layoutInflater is not null
         if (layoutInflater == null) {
             layoutInflater =
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         }
+        //Inflate the layout for each list row if convertView is null
         if (convertView == null) {
             convertView = layoutInflater!!.inflate(R.layout.viatmin_a_gridview_item, null)
         }
+        //Get textviews from the layout
         main_vit_TV = convertView!!.findViewById(R.id.textView_mainVit)
-        main_vit2_TV = convertView!!.findViewById(R.id.textView_mainVit2)
-        mass_TV = convertView!!.findViewById(R.id.textView_calculation_mass)
-        volume_TV = convertView!!.findViewById(R.id.textView_calculation_volume)
-        drops_TV = convertView!!.findViewById(R.id.textView_calculation_drops)
-        massunits_TV = convertView!!.findViewById(R.id.textView_calculation_massunits)
-        howMuchTosell_TV = convertView!!.findViewById(R.id.textView_howMuchToSell)
+        main_vit2_TV = convertView.findViewById(R.id.textView_mainVit2)
+        mass_TV = convertView.findViewById(R.id.textView_calculation_mass)
+        volume_TV = convertView.findViewById(R.id.textView_calculation_volume)
+        drops_TV = convertView.findViewById(R.id.textView_calculation_drops)
+        massunits_TV = convertView.findViewById(R.id.textView_calculation_massunits)
+        howMuchTosell_TV = convertView.findViewById(R.id.textView_howMuchToSell)
 
+        //Set text for textviews
         main_vit_TV.text = resultsList[position].main_vit
         main_vit2_TV.text = resultsList[position].main_vit2
         mass_TV.text = resultsList[position].mass
