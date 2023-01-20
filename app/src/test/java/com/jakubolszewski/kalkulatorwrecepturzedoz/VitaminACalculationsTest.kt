@@ -9,8 +9,12 @@ import org.junit.Assert.*
 
 
 class VitaminACalculationsTest {
+    // Unit test for VitaminACalculations class
+
+    // Test data
     var vitAList: ArrayList<VitAModel> = ArrayList()
 
+    // Test 1 Hasco grams
     @Test
     internal fun Test_0_0() {
         vitAList.add(
@@ -56,6 +60,7 @@ class VitaminACalculationsTest {
 
     }
 
+    // Test 2 Hasco MASS UNITS
     @Test
     internal fun Test_0_1() {
         vitAList.add(
@@ -101,6 +106,7 @@ class VitaminACalculationsTest {
 
     }
 
+    // Test 3 Hasco DROPS
     @Test
     internal fun Test_0_2() {
         vitAList.add(
@@ -144,5 +150,178 @@ class VitaminACalculationsTest {
         )
         assertEquals(a, VitaminACalculations.get("Vit1"))
 
+    }
+
+    //Test 4 Medana grams
+    @Test
+    internal fun Test_1_0() {
+        vitAList.add(
+            VitAModel(
+                id = 0,
+                company = "hasco",
+                density = 1.148,
+                drops = 28,
+                mass_units = 45000.0
+            )
+        )
+        vitAList.add(
+            VitAModel(
+                id = 1,
+                company = "medana",
+                density = 1.08,
+                drops = 30,
+                mass_units = 50000.0
+            )
+        )
+        vitAList.add(
+            VitAModel(
+                id = 2,
+                company = "fagron",
+                density = 0.0,
+                drops = 10000,
+                mass_units = 0.034
+            )
+        )
+        val VitaminACalculations = VitaminACalculations(1, 0, 10.0, vitAList).calculate()
+        val a: VitaminAGridModel = VitaminAGridModel(
+            main_vit = "Medana",
+            main_vit2 = "1.08",
+            mass = "10.0",
+            volume = "9.26",
+            drops = "278.0",
+            massunits = "436000",
+            howMuchTosell = ""
+        )
+        assertEquals(a, VitaminACalculations.get("Vit1"))
+
+    }
+
+    // Test 5 Medana MASS UNITS
+    @Test
+    internal fun Test_1_1() {
+        vitAList.add(
+            VitAModel(
+                id = 0,
+                company = "hasco",
+                density = 1.148,
+                drops = 28,
+                mass_units = 45000.0
+            )
+        )
+        vitAList.add(
+            VitAModel(
+                id = 1,
+                company = "medana",
+                density = 1.08,
+                drops = 30,
+                mass_units = 50000.0
+            )
+        )
+        vitAList.add(
+            VitAModel(
+                id = 2,
+                company = "fagron",
+                density = 0.0,
+                drops = 10000,
+                mass_units = 0.034
+            )
+        )
+        val VitaminACalculations = VitaminACalculations(1, 1, 10.0, vitAList).calculate()
+        val a: VitaminAGridModel = VitaminAGridModel(
+            main_vit = "Medana",
+            main_vit2 = "1.08",
+            mass = "10.8",
+            volume = "10.0",
+            drops = "300.0",
+            massunits = "436000",
+            howMuchTosell = ""
+        )
+        assertEquals(a, VitaminACalculations.get("Vit1"))
+    }
+
+    // Test 6 Medana DROPS
+    @Test
+    internal fun Test_1_2() {
+        vitAList.add(
+            VitAModel(
+                id = 0,
+                company = "hasco",
+                density = 1.148,
+                drops = 28,
+                mass_units = 45000.0
+            )
+        )
+        vitAList.add(
+            VitAModel(
+                id = 1,
+                company = "medana",
+                density = 1.08,
+                drops = 30,
+                mass_units = 50000.0
+            )
+        )
+        vitAList.add(
+            VitAModel(
+                id = 2,
+                company = "fagron",
+                density = 0.0,
+                drops = 10000,
+                mass_units = 0.034
+            )
+        )
+        val VitaminACalculations = VitaminACalculations(1, 2, 46500.0, vitAList).calculate()
+        val a: VitaminAGridModel = VitaminAGridModel(
+            main_vit = "Medana",
+            main_vit2 = "1.08",
+            mass = "1.0",
+            volume = "0.93",
+            drops = "28.0",
+            massunits = "46500",
+            howMuchTosell = ""
+        )
+        assertEquals(a, VitaminACalculations.get("Vit1"))
+    }
+
+    // Test 7 Fagron Mass units
+    @Test
+    internal fun Test_2_1() {
+        vitAList.add(
+            VitAModel(
+                id = 0,
+                company = "hasco",
+                density = 1.148,
+                drops = 28,
+                mass_units = 45000.0
+            )
+        )
+        vitAList.add(
+            VitAModel(
+                id = 1,
+                company = "medana",
+                density = 1.08,
+                drops = 30,
+                mass_units = 50000.0
+            )
+        )
+        vitAList.add(
+            VitAModel(
+                id = 2,
+                company = "fagron",
+                density = 0.0,
+                drops = 10000,
+                mass_units = 0.034
+            )
+        )
+        val VitaminACalculations = VitaminACalculations(2, 1, 1000000.0, vitAList).calculate()
+        val a: VitaminAGridModel = VitaminAGridModel(
+            main_vit = "Fagron",
+            main_vit2 = "0.0",
+            mass = "3.4",
+            volume = "",
+            drops = "100.0",
+            massunits = "1000000",
+            howMuchTosell = ""
+        )
+        assertEquals(a, VitaminACalculations.get("Vit1"))
     }
 }
