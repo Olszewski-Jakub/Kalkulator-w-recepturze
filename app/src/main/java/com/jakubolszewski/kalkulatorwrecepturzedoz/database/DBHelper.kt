@@ -66,8 +66,6 @@ class DBHelper(context: Context) :
 
     }
 
-
-
     // Get all data from table VitA and return it as a list of VitAModel
     @SuppressLint("Range")
     fun getAllVitA(): ArrayList<VitAModel>{

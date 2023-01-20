@@ -189,7 +189,7 @@ class VitaminACalculationsTest {
             mass = "10.0",
             volume = "9.26",
             drops = "278.0",
-            massunits = "436000",
+            massunits = "463000",
             howMuchTosell = ""
         )
         assertEquals(a, VitaminACalculations.get("Vit1"))
@@ -226,14 +226,14 @@ class VitaminACalculationsTest {
                 mass_units = 0.034
             )
         )
-        val VitaminACalculations = VitaminACalculations(1, 1, 10.0, vitAList).calculate()
+        val VitaminACalculations = VitaminACalculations(1, 1, 463000.0, vitAList).calculate()
         val a: VitaminAGridModel = VitaminAGridModel(
             main_vit = "Medana",
             main_vit2 = "1.08",
-            mass = "10.8",
-            volume = "10.0",
-            drops = "300.0",
-            massunits = "436000",
+            mass = "10.0",
+            volume = "9.26",
+            drops = "278.0",
+            massunits = "463000.0",
             howMuchTosell = ""
         )
         assertEquals(a, VitaminACalculations.get("Vit1"))
@@ -269,14 +269,14 @@ class VitaminACalculationsTest {
                 mass_units = 0.034
             )
         )
-        val VitaminACalculations = VitaminACalculations(1, 2, 46500.0, vitAList).calculate()
+        val VitaminACalculations = VitaminACalculations(1, 2, 10.0, vitAList).calculate()
         val a: VitaminAGridModel = VitaminAGridModel(
             main_vit = "Medana",
             main_vit2 = "1.08",
-            mass = "1.0",
-            volume = "0.93",
-            drops = "28.0",
-            massunits = "46500",
+            mass = "10.8",
+            volume = "10.0",
+            drops = "300.0",
+            massunits = "500000.0",
             howMuchTosell = ""
         )
         assertEquals(a, VitaminACalculations.get("Vit1"))
@@ -319,7 +319,7 @@ class VitaminACalculationsTest {
             mass = "3.4",
             volume = "",
             drops = "100.0",
-            massunits = "1000000",
+            massunits = "1000000.0",
             howMuchTosell = ""
         )
         assertEquals(a, VitaminACalculations.get("Vit1"))
