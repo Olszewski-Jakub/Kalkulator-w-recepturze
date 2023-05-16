@@ -1,8 +1,6 @@
 package com.jakubolszewski.kalkulatorwrecepturzedoz
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.preference.PreferenceManager
 import android.util.Log
 import android.widget.Toast
@@ -14,6 +12,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import com.jakubolszewski.kalkulatorwrecepturzedoz.database.AlcoholConcentrationModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.DBHelper
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.VitAModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.fragments.HomeFragment
@@ -41,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         }
         // Initialize SQLite database
         dbHelper = DBHelper(this)
+
 
         fetch_and_save()
     }
@@ -93,6 +93,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
     }
+
     //Convert JSON String to Map
     fun JSONObject.toMap(): Map<String, *> = keys().asSequence().associateWith {
         when (val value = this[it]) {
@@ -112,8 +113,8 @@ class MainActivity : AppCompatActivity() {
         //Convert JSON String to Map
         val jsonObj = JSONObject(jsonString)
         val jsonMap = jsonObj.toMap()
-        //Save data from Firebase Remote Config to SQLite database
-        var vitaminAData: String = jsonMap.getValue("vit_A").toString()
+        //Save data according vitamin A from Firebase Remote Config to SQLite database
+        val vitaminAData: String = jsonMap.getValue("vit_A").toString()
         val vitaminAJsonObject = JSONObject(vitaminAData)
         val vitaminAMap = vitaminAJsonObject.toMap()
         //Crearte Map if different values of VitA
@@ -123,6 +124,12 @@ class MainActivity : AppCompatActivity() {
             JSONObject(vitaminAMap["fagron"].toString()).toMap()
         )
 
+        //Save data according Alcohol from Firebase Remote Config to SQLite database
+        val alcoholData = jsonMap.getValue("alkohol").toString()
+        val alcoholJsonObject = JSONObject(alcoholData)
+        val alcoholMap = alcoholJsonObject.toMap()
+//        Log.d(TAG, JSONObject(.toString())
+        convertAlcoholConcentration(JSONObject(alcoholMap["concentration"].toString()).toMap())
     }
 
     private fun convertVItA(
@@ -152,19 +159,25 @@ class MainActivity : AppCompatActivity() {
             drops = fagronMap["drops"].toString().toInt(),
             mass_units = fagronMap.get("mass_units").toString().toDouble()
         )
-
+        //TODO Needs to be fixed. Implement isVitAEmpty() method it probably needs fixing.
+        // Priority is not high app doesn't crash, throws an error in logcat
+        //if (true){
         val hasco_status = dbHelper.insertVitA(hascoModel)
         val medana_status = dbHelper.insertVitA(medanaModel)
         val fagron_status = dbHelper.insertVitA(fagronModel)
+
         if (hasco_status > -1 && medana_status > -1 && fagron_status > -1) {
             //TODO() Remove before deployment
             Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
-
         }
+        //}else {
         //Update data in database
         dbHelper.updateVitA(hascoModel)
         dbHelper.updateVitA(medanaModel)
         dbHelper.updateVitA(fagronModel)
+        //}
+
+
         Toast.makeText(this, "Success Update", Toast.LENGTH_SHORT).show()
         supportFragmentManager
             .beginTransaction()
@@ -172,5 +185,25 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+    private fun convertAlcoholConcentration(
+        alcoholMap: Map<String, *>
+    ) {
+        Log.d(TAG, alcoholMap.toString())
+        var check = dbHelper.isAlcoholConcentrationEmpty()
+        if (!check) {
+            var id: Int = 0
+            for (x in alcoholMap) {
+                Log.d(TAG, x.key.toString())
+                val alcoholModel = AlcoholConcentrationModel(
+                    id = id,
+                    alcohol_concentration = x.key,
+                    alcohol_volume = x.value.toString().toDouble()
+                )
+                id++
+                dbHelper.insertAlcoholConcentration(alcoholModel)
+            }
+        }
+
+    }
 }
 

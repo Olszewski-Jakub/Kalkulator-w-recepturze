@@ -6,6 +6,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 
 class DBHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -14,6 +15,8 @@ class DBHelper(context: Context) :
     companion object {
         private const val DATABASE_VERSION = 1
         private const val DATABASE_NAME = "KWK.db"
+
+        // Table VitA
         private const val ID = "id"
         private const val TBL_VITA = "tbl_vit_a"
         private const val COMPANY = "company"
@@ -21,23 +24,45 @@ class DBHelper(context: Context) :
         private const val DROPS = "drops"
         private const val MASS_UNITS = "mass_units"
 
+        //Table Alcohol Concentration
+        private const val TBL_ALCOHOL_CONCENTRATION = "tbl_alcohol_concentration"
+        private const val ALCOHOL_CONCENTRATION = "alcohol_concentration"
+        private const val ALCOHOL_VOLUME = "alcohol_volume"
+
+        //Table Alcohol Degree
+        private const val TBL_ALCOHOL_DEGREE = "tbl_alcohol_degree"
+        private const val ALCOHOL_DEGREE = "alcohol_degree"
+        private const val ALCOHOL_VOLUME_DEGREE = "alcohol_volume_degree"
     }
+
     //Create table SQL query
     override fun onCreate(db: SQLiteDatabase?) {
-        val createTblVitA = ("CREATE TABLE " + TBL_VITA + " ("
-                + ID + " INTEGER PRIMARY KEY,"
-                + COMPANY + " TEXT,"
-                + DENSITY + " NUMERIC,"
-                + DROPS + " INTEGER,"
-                + MASS_UNITS + " NUMERIC " + ")")
+        // Create table VitA
+        val createTblVitA =
+            ("CREATE TABLE $TBL_VITA ($ID INTEGER PRIMARY KEY,$COMPANY TEXT,$DENSITY NUMERIC,$DROPS INTEGER,$MASS_UNITS NUMERIC )")
         db?.execSQL(createTblVitA)
+
+        // Create table Alcohol Concentration
+        val createTblAlcoholConcentration =
+            ("CREATE TABLE $TBL_ALCOHOL_CONCENTRATION ($ID INTEGER PRIMARY KEY,$ALCOHOL_CONCENTRATION TEXT,$ALCOHOL_VOLUME NUMERIC )")
+        db?.execSQL(createTblAlcoholConcentration)
+
+        // Create table Alcohol Degree
+        val createTblAlcoholDegree =
+            ("CREATE TABLE $TBL_ALCOHOL_DEGREE ($ID INTEGER PRIMARY KEY,$ALCOHOL_DEGREE TEXT,$ALCOHOL_VOLUME_DEGREE NUMERIC )")
+        db?.execSQL(createTblAlcoholDegree)
     }
+
     //Upgrade table SQL query
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+        // Drop older table if existed
         db!!.execSQL("DROP TABLE IF EXISTS $TBL_VITA")
+        db.execSQL("DROP TABLE IF EXISTS $TBL_ALCOHOL_CONCENTRATION")
+        db.execSQL("DROP TABLE IF EXISTS $TBL_ALCOHOL_DEGREE")
         onCreate(db)
     }
-    // Insert data into table
+
+    // Insert data into table VitA
     fun insertVitA(vitA: VitAModel): Long {
         val db = this.writableDatabase
         val contentValues = ContentValues()
@@ -51,6 +76,15 @@ class DBHelper(context: Context) :
         db.close()
         return success
     }
+
+    //Check if table VitA is empty
+    @SuppressLint("Recycle")
+    fun isVitATableEmpty(): Boolean {
+        val db = this.readableDatabase
+        val mcursor = db.rawQuery("SELECT count(*) FROM $TBL_VITA", null)
+        return mcursor.count == 0
+    }
+
     //Update data in table VitA
     fun updateVitA(vitA: VitAModel) {
         val db = this.writableDatabase
@@ -61,14 +95,14 @@ class DBHelper(context: Context) :
         contentValues.put(DROPS, vitA.drops)
         contentValues.put(MASS_UNITS, vitA.mass_units)
 
-        db.update(TBL_VITA, contentValues,"id=?", arrayOf(vitA.id.toString()))
+        db.update(TBL_VITA, contentValues, "id=?", arrayOf(vitA.id.toString()))
         db.close()
 
     }
 
     // Get all data from table VitA and return it as a list of VitAModel
     @SuppressLint("Range")
-    fun getAllVitA(): ArrayList<VitAModel>{
+    fun getAllVitA(): ArrayList<VitAModel> {
         val vitAList: ArrayList<VitAModel> = ArrayList()
         val selectQuery = "SELECT * FROM $TBL_VITA"
         val db = this.readableDatabase
@@ -76,21 +110,21 @@ class DBHelper(context: Context) :
         // Cursor is a pointer to a row in the table
         val cursor: Cursor?
         try {
-            cursor = db.rawQuery(selectQuery,null)
+            cursor = db.rawQuery(selectQuery, null)
 
-        }catch (e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
             db.execSQL(selectQuery)
             return ArrayList()
         }
-        var id:Int
+        var id: Int
         var company: String
-        var density:Double
+        var density: Double
         var drops: Int
         var mass_units: Double
 
         // Move cursor to the first row
-        if (cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             // Loop through the cursor while it is not at the end of the table
             do {
                 id = cursor.getInt(cursor.getColumnIndex(ID))
@@ -99,14 +133,178 @@ class DBHelper(context: Context) :
                 drops = cursor.getInt(cursor.getColumnIndex(DROPS))
                 mass_units = cursor.getDouble(cursor.getColumnIndex(MASS_UNITS))
                 // Create a VitAModel object and add it to the list
-                val vita = VitAModel(id = id, company = company, density = density, drops = drops, mass_units = mass_units)
+                val vita = VitAModel(
+                    id = id,
+                    company = company,
+                    density = density,
+                    drops = drops,
+                    mass_units = mass_units
+                )
                 vitAList.add(vita)
-            }while (cursor.moveToNext())
+            } while (cursor.moveToNext())
         }
         // Close the cursor and the database
         cursor.close()
         db.close()
         return vitAList
+    }
+
+    // Insert data into table Alcohol Concentration
+    @SuppressLint("Range")
+    fun insertAlcoholConcentration(alcoholConcentration: AlcoholConcentrationModel): Long {
+        val db = this.readableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(ID, alcoholConcentration.id)
+        contentValues.put(
+            ALCOHOL_CONCENTRATION,
+            alcoholConcentration.alcohol_concentration.replace("°(", "° (").replace("mm", " m/m")
+        )
+        contentValues.put(ALCOHOL_VOLUME, alcoholConcentration.alcohol_volume)
+        Log.d(
+            "AlcoholConcentration",
+            alcoholConcentration.alcohol_concentration.replace("°(", "° (").replace("mm", " m/m")
+        )
+        val success = db.insert(TBL_ALCOHOL_CONCENTRATION, null, contentValues)
+        db.close()
+        return success
+    }
+
+    //Check if data exists in table Alcohol Concentration
+    @SuppressLint("Recycle")
+    fun isAlcoholConcentrationEmpty(): Boolean {
+        val db = this.readableDatabase
+        val mCursor: Cursor? = db.rawQuery("SELECT * FROM $TBL_ALCOHOL_CONCENTRATION", null)
+        return mCursor!!.count > 0
+    }
+
+    //Update data in table Alcohol Concentration
+    fun updateAlcoholConcentration(alcoholConcentration: AlcoholConcentrationModel) {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(ID, alcoholConcentration.id)
+        contentValues.put(ALCOHOL_CONCENTRATION, alcoholConcentration.alcohol_concentration)
+        contentValues.put(ALCOHOL_VOLUME, alcoholConcentration.alcohol_volume)
+
+        db.update(
+            TBL_ALCOHOL_CONCENTRATION,
+            contentValues,
+            "id=?",
+            arrayOf(alcoholConcentration.id.toString())
+        )
+        db.close()
+
+    }
+
+    // Get all data from table Alcohol Concentration and return it as a list of AlcoholConcentrationModel
+    @SuppressLint("Range")
+    fun getAllAlcoholConcentration(): ArrayList<AlcoholConcentrationModel> {
+        val alcoholConcentrationList: ArrayList<AlcoholConcentrationModel> = ArrayList()
+        val selectQuery = "SELECT * FROM $TBL_ALCOHOL_CONCENTRATION"
+        val db = this.readableDatabase
+
+        // Cursor is a pointer to a row in the table
+        val cursor: Cursor?
+        try {
+            cursor = db.rawQuery(selectQuery, null)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            db.execSQL(selectQuery)
+            return ArrayList()
+        }
+        var id: Int
+        var alcohol_concentration: String
+        var alcohol_volume: Double
+
+        // Move cursor to the first row
+        if (cursor.moveToFirst()) {
+            // Loop through the cursor while it is not at the end of the table
+            do {
+                id = cursor.getInt(cursor.getColumnIndex(ID))
+                alcohol_concentration =
+                    cursor.getString(cursor.getColumnIndex(ALCOHOL_CONCENTRATION))
+                alcohol_volume = cursor.getDouble(cursor.getColumnIndex(ALCOHOL_VOLUME))
+                // Create a AlcoholConcentrationModel object and add it to the list
+                val alcoholConcentration = AlcoholConcentrationModel(
+                    id = id,
+                    alcohol_concentration = alcohol_concentration,
+                    alcohol_volume = alcohol_volume
+                )
+                alcoholConcentrationList.add(alcoholConcentration)
+            } while (cursor.moveToNext())
+        }
+        // Close the cursor and the database
+        cursor.close()
+        db.close()
+        return alcoholConcentrationList
+    }
+
+    // Insert data into table Alcohol Degree
+    fun insertAlcoholDegree(alcoholDegree: AlcoholDegreeModel): Long {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(ID, alcoholDegree.id)
+        contentValues.put(ALCOHOL_DEGREE, alcoholDegree.alcohol_degree)
+        contentValues.put(ALCOHOL_VOLUME, alcoholDegree.alcohol_volume_degree)
+
+        val success = db.insert(TBL_ALCOHOL_DEGREE, null, contentValues)
+        db.close()
+        return success
+    }
+
+    //Update data in table Alcohol Degree
+    fun updateAlcoholDegree(alcoholDegree: AlcoholDegreeModel) {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(ID, alcoholDegree.id)
+        contentValues.put(ALCOHOL_DEGREE, alcoholDegree.alcohol_degree)
+        contentValues.put(ALCOHOL_VOLUME, alcoholDegree.alcohol_volume_degree)
+        db.update(TBL_ALCOHOL_DEGREE, contentValues, "id=?", arrayOf(alcoholDegree.id.toString()))
+        db.close()
+
+    }
+
+    // Get all data from table Alcohol Degree and return it as a list of AlcoholDegreeModel
+    @SuppressLint("Range")
+    fun getAllAlcoholDegree(): ArrayList<AlcoholDegreeModel> {
+        val alcoholDegreeList: ArrayList<AlcoholDegreeModel> = ArrayList()
+        val selectQuery = "SELECT * FROM $TBL_ALCOHOL_DEGREE"
+        val db = this.readableDatabase
+
+        // Cursor is a pointer to a row in the table
+        val cursor: Cursor?
+        try {
+            cursor = db.rawQuery(selectQuery, null)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            db.execSQL(selectQuery)
+            return ArrayList()
+        }
+        var id: Int
+        var alcohol_degree: String
+        var alcohol_volume_degree: Double
+
+        // Move cursor to the first row
+        if (cursor.moveToFirst()) {
+            // Loop through the cursor while it is not at the end of the table
+            do {
+                id = cursor.getInt(cursor.getColumnIndex(ID))
+                alcohol_degree = cursor.getString(cursor.getColumnIndex(ALCOHOL_DEGREE))
+                alcohol_volume_degree = cursor.getDouble(cursor.getColumnIndex(ALCOHOL_VOLUME))
+                // Create a AlcoholDegreeModel object and add it to the list
+                val alcoholDegree = AlcoholDegreeModel(
+                    id = id,
+                    alcohol_degree = alcohol_degree,
+                    alcohol_volume_degree = alcohol_volume_degree
+                )
+                alcoholDegreeList.add(alcoholDegree)
+            } while (cursor.moveToNext())
+        }
+        // Close the cursor and the database
+        cursor.close()
+        db.close()
+        return alcoholDegreeList
     }
 
 

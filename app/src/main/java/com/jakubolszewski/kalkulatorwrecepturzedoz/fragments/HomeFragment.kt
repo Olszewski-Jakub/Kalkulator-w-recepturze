@@ -35,6 +35,8 @@ class HomeFragment : Fragment() {
     private lateinit var gridView: GridView
     private lateinit var substancesList: ArrayList<GridViewModal>
     private lateinit var settings: ImageView
+
+    //Creates the view of the fragment
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -121,21 +123,27 @@ class HomeFragment : Fragment() {
                 0 -> if (isActive(position = 0, state = buttonState)) {
                     fragment = VitaminAFragment()
                 }
+
                 1 -> if (isActive(position = 1, state = buttonState)) {
                     fragment = VitaminAFragment()
                 }
+
                 2 -> if (isActive(position = 2, state = buttonState)) {
                     fragment = VitaminAFragment()
                 }
+
                 3 -> if (isActive(position = 3, state = buttonState)) {
                     fragment = VitaminAFragment()
                 }
+
                 4 -> if (isActive(position = 4, state = buttonState)) {
                     fragment = VitaminAFragment()
                 }
+
                 5 -> if (isActive(position = 5, state = buttonState)) {
                     fragment = VitaminAFragment()
                 }
+
                 6 -> if (isActive(position = 6, state = buttonState)) {
                     fragment = VitaminAFragment()
                 }

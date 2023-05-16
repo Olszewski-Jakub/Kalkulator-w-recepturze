@@ -184,7 +184,9 @@ class VitaminACalculations(
                 howMuchTosell = ""
             )
         }
-
+        /*
+        * Selecting unit for calculation(user input)
+        */
         when (units) {
             0 -> grams()
             1 -> mass_unit()
@@ -316,7 +318,7 @@ class VitaminACalculations(
     }
 
     fun calculate(): Map<String, VitaminAGridModel> {
-        //Choose company
+        //Selecting company (user input)
         when (company) {
             0 -> return Hasco()
             1 -> return Medana()
