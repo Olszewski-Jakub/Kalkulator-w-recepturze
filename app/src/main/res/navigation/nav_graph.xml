@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashScreenFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.jakubolszewski.kalkulatorwrecepturzedoz.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_vitaminAFragment"
+            app:destination="@id/vitaminAFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_alcoholFragment"
+            app:destination="@id/alcoholFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_devicapFragment"
+            app:destination="@id/devicapFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_olejeFragment"
+            app:destination="@id/olejeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_olejeFragment2"
+            app:destination="@id/olejeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_olejkiFragment"
+            app:destination="@id/olejkiFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_VItaminAplusD3Fragment"
+            app:destination="@id/VItaminAplusD3Fragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_vitaminEFragment"
+            app:destination="@id/vitaminEFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_vitaminAFrament_v2"
+            app:destination="@id/vitaminAFrament_v2" />
+    </fragment>
+    <fragment
+        android:id="@+id/vitaminAFragment"
+        android:name="com.jakubolszewski.kalkulatorwrecepturzedoz.fragments.VitaminAFragment"
+        android:label="VitaminAFragment">
+        <action
+            android:id="@+id/action_vitaminAFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.jakubolszewski.kalkulatorwrecepturzedoz.fragments.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashScreenFragment"
+        android:name="com.jakubolszewski.kalkulatorwrecepturzedoz.fragments.SplashScreenFragment"
+        android:label="fragment_splash_screen"
+        tools:layout="@layout/fragment_splash_screen">
+        <action
+            android:id="@+id/action_splashScreenFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/alcoholFragment"
+        android:name="com.jakubolszewski.kalkulatorwrecepturzedoz.fragments.AlcoholFragment"
+        android:label="fragment_alcohol"
+        tools:layout="@layout/fragment_alcohol">
+        <action
+            android:id="@+id/action_alcoholFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/devicapFragment"
+        android:name="com.jakubolszewski.kalkulatorwrecepturzedoz.fragments.DevicapFragment"
+        android:label="fragment_devicap"
+        tools:layout="@layout/fragment_devicap">
+        <action
+            android:id="@+id/action_devicapFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/olejeFragment"
+        android:name="com.jakubolszewski.kalkulatorwrecepturzedoz.fragments.OlejeFragment"
+        android:label="fragment_oleje"
+        tools:layout="@layout/fragment_oleje">
+        <action
+            android:id="@+id/action_olejeFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/olejkiFragment"
+        android:name="com.jakubolszewski.kalkulatorwrecepturzedoz.fragments.OlejkiFragment"
+        android:label="fragment_olejki"
+        tools:layout="@layout/fragment_olejki">
+        <action
+            android:id="@+id/action_olejkiFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/VItaminAplusD3Fragment"
+        android:name="com.jakubolszewski.kalkulatorwrecepturzedoz.fragments.VItaminAplusD3Fragment"
+        android:label="fragment_v_itamin_aplus_d3"
+        tools:layout="@layout/fragment_v_itamin_aplus_d3">
+        <action
+            android:id="@+id/action_VItaminAplusD3Fragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/vitaminEFragment"
+        android:name="com.jakubolszewski.kalkulatorwrecepturzedoz.fragments.VitaminEFragment"
+        android:label="fragment_vitamin_e"
+        tools:layout="@layout/fragment_vitamin_e">
+        <action
+            android:id="@+id/action_vitaminEFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/vitaminAFrament_v2"
+        android:name="com.jakubolszewski.kalkulatorwrecepturzedoz.fragments.VitaminAFrament_v2"
+        android:label="fragment_vitamin_a_frament_v2"
+        tools:layout="@layout/fragment_vitamin_a_frament_v2">
+        <action
+            android:id="@+id/action_vitaminAFrament_v2_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+</navigation>

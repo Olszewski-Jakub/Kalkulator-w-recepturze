@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.jakubolszewski.kalkulatorwrecepturzedoz.R
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -82,9 +83,7 @@ class SettingsFragment : Fragment() {
 
         //Go back to main menu
         backImgView.setOnClickListener { view ->
-            val transaction = parentFragmentManager.beginTransaction()
-            transaction.replace(R.id.container, HomeFragment())
-            transaction.commit()
+            findNavController().navigate(R.id.action_settingsFragment_to_homeFragment)
         }
         try {
             val pInfo: PackageInfo =

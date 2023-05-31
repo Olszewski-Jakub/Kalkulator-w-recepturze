@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.VitaminAFrament_v2">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -58,55 +59,101 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
                     android:text="@string/wybierz_producenta"
                     android:textColor="#000000"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:layout_gravity="center" />
 
-                <Spinner
-                    android:id="@+id/spinner_Company"
-                    android:layout_width="0dp"
-                    android:layout_height="27dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/spinner_style" />
+                <com.google.android.material.button.MaterialButtonToggleGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/toggle_button_group_company"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hasco"
+                        android:textColor="@color/doz_orange"
+                        android:id="@+id/button_hasco" />
+
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Medana"
+                        android:textColor="@color/doz_orange"
+                        android:id="@+id/button_medana" />
+
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fagron"
+                        android:textColor="@color/doz_orange"
+                        android:id="@+id/button_fagron" />
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/wybierz_jednostk"
+                    android:text="@string/wybierz_producenta"
                     android:textColor="#000000"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:layout_gravity="center" />
 
-                <Spinner
-                    android:id="@+id/spinner_unit"
-                    android:layout_width="0dp"
-                    android:layout_height="27dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/spinner_style" />
+                <com.google.android.material.button.MaterialButtonToggleGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/toggle_button_group_units"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.button.MaterialButton
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vit A liq (g)"
+                        android:textColor="@color/doz_orange"
+                        android:id="@+id/button_vit_a_liq_g" />
+
+                    <com.google.android.material.button.MaterialButton
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vit A liq (ml)"
+                        android:textColor="@color/doz_orange"
+                        android:id="@+id/button_vit_a_liq_ml" />
+
+                    <com.google.android.material.button.MaterialButton
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vit A (j.m.)"
+                        android:textColor="@color/doz_orange"
+                        android:id="@+id/button_vit_a_jm" />
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
 
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -153,6 +200,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:horizontalSpacing="12dp"
                 android:numColumns="1"
                 android:verticalSpacing="12dp" />

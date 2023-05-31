@@ -12,6 +12,7 @@ import android.widget.GridView
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.GridRVAdapter
 import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.GridViewModal
 import com.jakubolszewski.kalkulatorwrecepturzedoz.R
@@ -22,8 +23,7 @@ private const val ARG_PARAM2 = "param2"
 
 @Suppress("DEPRECATION")
 class HomeFragment : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,6 +105,12 @@ class HomeFragment : Fragment() {
                 icon = R.drawable.ic_android_black_24dp
             )
         )
+        substancesList.add(
+            GridViewModal(
+                substance = "Witamia A v2",
+                icon = R.drawable.ic_android_black_24dp
+            )
+        )
         val menuAdapter = context?.let { GridRVAdapter(courseList = substancesList, context = it) }
 
         //Set the adapter to the grid view
@@ -115,74 +121,68 @@ class HomeFragment : Fragment() {
                 context, position.toString(),
                 Toast.LENGTH_SHORT
             ).show()
-
-            var fragment: Fragment? = null
-
+            var active: Boolean = false
             //Checks if the button is turned on or off
             when (position) {
+                //Vitamin A
                 0 -> if (isActive(position = 0, state = buttonState)) {
-                    fragment = VitaminAFragment()
+                    findNavController().navigate(R.id.action_homeFragment_to_vitaminAFragment)
+                    active = true
                 }
-
+                //Vitamin E
                 1 -> if (isActive(position = 1, state = buttonState)) {
-                    fragment = VitaminAFragment()
+                    findNavController().navigate(R.id.action_homeFragment_to_vitaminEFragment)
+                    active = true
                 }
-
+                //Vitamin A+D3
                 2 -> if (isActive(position = 2, state = buttonState)) {
-                    fragment = VitaminAFragment()
+                    findNavController().navigate(R.id.action_homeFragment_to_VItaminAplusD3Fragment)
+                    active = true
                 }
-
+                //Devicap
                 3 -> if (isActive(position = 3, state = buttonState)) {
-                    fragment = VitaminAFragment()
+                    findNavController().navigate(R.id.action_homeFragment_to_devicapFragment)
+                    active = true
                 }
-
+                //Spirytus
                 4 -> if (isActive(position = 4, state = buttonState)) {
-                    fragment = VitaminAFragment()
+                    findNavController().navigate(R.id.action_homeFragment_to_alcoholFragment)
+                    active = true
                 }
-
+                //Olejki
                 5 -> if (isActive(position = 5, state = buttonState)) {
-                    fragment = VitaminAFragment()
+                    findNavController().navigate(R.id.action_homeFragment_to_olejkiFragment)
+                    active = true
+                }
+                //Oleje
+                6 -> if (isActive(position = 6, state = buttonState)) {
+                    findNavController().navigate(R.id.action_homeFragment_to_olejeFragment)
+                    active = true
                 }
 
-                6 -> if (isActive(position = 6, state = buttonState)) {
-                    fragment = VitaminAFragment()
-                }
+                7 -> findNavController().navigate(R.id.action_homeFragment_to_vitaminAFrament_v2)
             }
             //Replace the fragment
             val transaction = parentFragmentManager.beginTransaction()
-            if (fragment != null) {
-                transaction.replace(R.id.container, fragment)
-            } else {
+            if (!active) {
                 Toast.makeText(
                     context,
                     "Funkcja jest w tej chwili nie dostępna\nZa utrudnienia przepraszamy",
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            transaction.commit()
+//            transaction.commit()
         }
 
         //Go back to main menu
         settings.setOnClickListener { view ->
-            val transaction = parentFragmentManager.beginTransaction()
-            transaction.replace(R.id.container, SettingsFragment())
-            transaction.commit()
+            findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
         }
 
 
         return view
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 
     //Functions checks if button is active
     private fun isActive(position: Int, state: ArrayList<Boolean>): Boolean {

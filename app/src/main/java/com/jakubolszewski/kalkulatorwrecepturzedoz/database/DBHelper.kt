@@ -24,6 +24,9 @@ class DBHelper(context: Context) :
         private const val DROPS = "drops"
         private const val MASS_UNITS = "mass_units"
 
+        //Table Vit E
+        private const val TBL_VITE = "tbl_vit_e"
+
         //Table Alcohol Concentration
         private const val TBL_ALCOHOL_CONCENTRATION = "tbl_alcohol_concentration"
         private const val ALCOHOL_CONCENTRATION = "alcohol_concentration"
@@ -42,6 +45,11 @@ class DBHelper(context: Context) :
             ("CREATE TABLE $TBL_VITA ($ID INTEGER PRIMARY KEY,$COMPANY TEXT,$DENSITY NUMERIC,$DROPS INTEGER,$MASS_UNITS NUMERIC )")
         db?.execSQL(createTblVitA)
 
+        //Create table vitE
+        val createTblVitE =
+            ("CREATE TABLE $TBL_VITE ($ID INTEGER PRIMARY KEY,$COMPANY TEXT,$DENSITY NUMERIC,$DROPS INTEGER)")
+        db?.execSQL(createTblVitE)
+
         // Create table Alcohol Concentration
         val createTblAlcoholConcentration =
             ("CREATE TABLE $TBL_ALCOHOL_CONCENTRATION ($ID INTEGER PRIMARY KEY,$ALCOHOL_CONCENTRATION TEXT,$ALCOHOL_VOLUME NUMERIC )")
@@ -59,6 +67,7 @@ class DBHelper(context: Context) :
         db!!.execSQL("DROP TABLE IF EXISTS $TBL_VITA")
         db.execSQL("DROP TABLE IF EXISTS $TBL_ALCOHOL_CONCENTRATION")
         db.execSQL("DROP TABLE IF EXISTS $TBL_ALCOHOL_DEGREE")
+        db.execSQL("DROP TABLE IF EXISTS $TBL_VITE")
         onCreate(db)
     }
 
@@ -148,6 +157,81 @@ class DBHelper(context: Context) :
         db.close()
         return vitAList
     }
+
+    // Insert data into table VitE
+    fun insertVitE(vitEModel: VitEModel) {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(ID, vitEModel.id)
+        contentValues.put(COMPANY, vitEModel.company)
+        contentValues.put(DENSITY, vitEModel.density)
+        contentValues.put(DROPS, vitEModel.drops)
+
+        val success = db.insert(TBL_VITE, null, contentValues)
+        db.close()
+    }
+
+    fun updateVitA(vitE: VitEModel) {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(ID, vitE.id)
+        contentValues.put(COMPANY, vitE.company)
+        contentValues.put(DENSITY, vitE.density)
+        contentValues.put(DROPS, vitE.drops)
+
+        db.update(TBL_VITE, contentValues, "id=?", arrayOf(vitE.id.toString()))
+        db.close()
+
+    }
+
+    // Get all data from table VitA and return it as a list of VitAModel
+    @SuppressLint("Range")
+    fun getAllVitE(): ArrayList<VitEModel> {
+        val vitEList: ArrayList<VitEModel> = ArrayList()
+        val selectQuery = "SELECT * FROM $TBL_VITE"
+        val db = this.readableDatabase
+
+        // Cursor is a pointer to a row in the table
+        val cursor: Cursor?
+        try {
+            cursor = db.rawQuery(selectQuery, null)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            db.execSQL(selectQuery)
+            return ArrayList()
+        }
+        var id: Int
+        var company: String
+        var density: Double
+        var drops: Int
+        var mass_units: Double
+
+        // Move cursor to the first row
+        if (cursor.moveToFirst()) {
+            // Loop through the cursor while it is not at the end of the table
+            do {
+                id = cursor.getInt(cursor.getColumnIndex(ID))
+                company = cursor.getString(cursor.getColumnIndex(COMPANY))
+                density = cursor.getDouble(cursor.getColumnIndex(DENSITY))
+                drops = cursor.getInt(cursor.getColumnIndex(DROPS))
+                mass_units = cursor.getDouble(cursor.getColumnIndex(MASS_UNITS))
+                // Create a VitAModel object and add it to the list
+                val vitE = VitEModel(
+                    id = id,
+                    company = company,
+                    density = density,
+                    drops = drops,
+                )
+                vitEList.add(vitE)
+            } while (cursor.moveToNext())
+        }
+        // Close the cursor and the database
+        cursor.close()
+        db.close()
+        return vitEList
+    }
+
 
     // Insert data into table Alcohol Concentration
     @SuppressLint("Range")
@@ -240,16 +324,22 @@ class DBHelper(context: Context) :
     }
 
     // Insert data into table Alcohol Degree
-    fun insertAlcoholDegree(alcoholDegree: AlcoholDegreeModel): Long {
+    fun insertAlcoholDegree(alcoholDegree: AlcoholDegreeModel) {
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(ID, alcoholDegree.id)
-        contentValues.put(ALCOHOL_DEGREE, alcoholDegree.alcohol_degree)
-        contentValues.put(ALCOHOL_VOLUME, alcoholDegree.alcohol_volume_degree)
+        contentValues.put(ALCOHOL_DEGREE, alcoholDegree.alcohol_degree.toString())
+        contentValues.put(ALCOHOL_VOLUME_DEGREE, alcoholDegree.alcohol_volume_degree.toDouble())
 
-        val success = db.insert(TBL_ALCOHOL_DEGREE, null, contentValues)
+        db.insert(TBL_ALCOHOL_DEGREE, null, contentValues)
         db.close()
-        return success
+//        return success
+    }
+
+    fun isAlcoholDegreeEmpty(): Boolean {
+        val db = this.readableDatabase
+        val mCursor: Cursor? = db.rawQuery("SELECT * FROM $TBL_ALCOHOL_DEGREE", null)
+        return mCursor!!.count > 0
     }
 
     //Update data in table Alcohol Degree

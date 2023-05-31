@@ -53,4 +53,5 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="ustawienia">Ustawienia</string>
+    <string name="button_label_private">a\n</string>
 </resources>
