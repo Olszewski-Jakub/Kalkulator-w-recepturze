@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.Log
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.AlcoholConcentrationModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.AlcoholDegreeModel
+import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.OlejeModel
+import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.OlejkiModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.VitAD3Model
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.VitAModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.VitEModel
@@ -67,11 +69,28 @@ class ImportData(mContext: Context) {
         convertAlcoholConcentration(alcoholMap_concentration)
         convertAlcholDegrees(alcoholMap_degrees)
 
-
+        //Save data according Oleje from Firebase Remote Config to SQLite database
         val vitaminAD3Data = jsonMap.getValue("vit_A_D3").toString().toString()
         val vitaminAD3JsonObject = JSONObject(vitaminAD3Data)
         val vitaminAD3Map = vitaminAD3JsonObject.toMap()
         convertVitAD3(vitaminAD3Map)
+
+        //Save data according Oleje from Firebase Remote Config to SQLite database
+        val olejeData = jsonMap.getValue("oleje").toString().toString()
+        val olejeJsonObject = JSONObject(olejeData)
+        val olejeMap = olejeJsonObject.toMap()
+        convertOleje(olejeMap)
+
+        //Save data according Olejki from Firebase Remote Config to SQLite database
+        val olejkiData = jsonMap.getValue("olejki").toString().toString()
+        val olejkiJsonObject = JSONObject(olejkiData)
+        val olejkiMap = olejkiJsonObject.toMap()
+
+        convertOlejki(
+            JSONObject(olejkiMap["mint"].toString()).toMap(),
+            JSONObject(olejkiMap["lavender"].toString()).toMap(),
+            JSONObject(olejkiMap["eucalyptus"].toString()).toMap()
+        )
 
     }
 
@@ -184,7 +203,6 @@ class ImportData(mContext: Context) {
         }
     }
 
-
     private fun convertVitAD3(
         vitAD3Map: Map<String, *>
     ) {
@@ -195,5 +213,53 @@ class ImportData(mContext: Context) {
         )
         dbHelper.insertVitAD3(vitAD3Model)
     }
-}
 
+    private fun convertOleje(olejeMap: Map<String, *>) {
+
+        val olejeModel_rapae = OlejeModel(
+            id = 0,
+            type = "rapae",
+            density = olejeMap["oleum_rapae"].toString().toDouble(),
+        )
+
+        val olejeModel_ricini = OlejeModel(
+            id = 1,
+            type = "ricini",
+            density = olejeMap["oleum_ricini"].toString().toDouble(),
+        )
+
+        dbHelper.insertOleje(olejeModel_rapae)
+        dbHelper.insertOleje(olejeModel_ricini)
+
+    }
+
+    private fun convertOlejki(
+        oljkiMap_mint: Map<String, *>,
+        oljkiMap_lavender: Map<String, *>,
+        oljkiMap_eucalyptus: Map<String, *>
+    ) {
+        val olejkiModel_mint = OlejkiModel(
+            id = 0,
+            type = "mint",
+            density = oljkiMap_mint["density"].toString().toDouble(),
+            drops = oljkiMap_mint["drops"].toString().toDouble(),
+        )
+
+        val olejkiModel_lavender = OlejkiModel(
+            id = 1,
+            type = "lavender",
+            density = oljkiMap_lavender["density"].toString().toDouble(),
+            drops = oljkiMap_lavender["drops"].toString().toDouble(),
+        )
+
+        val olejkiModel_eucalyptus = OlejkiModel(
+            id = 2,
+            type = "eucalyptus",
+            density = oljkiMap_eucalyptus["density"].toString().toDouble(),
+            drops = oljkiMap_eucalyptus["drops"].toString().toDouble(),
+        )
+        dbHelper.insertOlejki(olejkiModel_mint)
+        dbHelper.insertOlejki(olejkiModel_lavender)
+        dbHelper.insertOlejki(olejkiModel_eucalyptus)
+    }
+}

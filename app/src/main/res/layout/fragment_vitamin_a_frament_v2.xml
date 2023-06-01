@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
-                    android:text="@string/wybierz_producenta"
+                    android:text="@string/wybierz_jednostke"
                     android:textColor="#000000"
                     android:textSize="20sp" />
 

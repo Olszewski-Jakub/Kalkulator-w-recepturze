@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.AlcoholConcentrationModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.AlcoholDegreeModel
+import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.OlejeModel
+import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.OlejkiModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.VitAD3Model
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.VitAModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.VitEModel
@@ -82,7 +84,7 @@ class DBHelper(context: Context) :
 
         // Create table oleje
         val createTblOleje =
-            ("CREATE TABLE $TBL_OLEJE ($ID INTEGER PRIMARY KEY,$TYPE TEXT,$DENSITY NUMERIC,$DROPS INTEGER)")
+            ("CREATE TABLE $TBL_OLEJE ($ID INTEGER PRIMARY KEY,$TYPE TEXT,$DENSITY NUMERIC)")
         db?.execSQL(createTblOleje)
 
         // CReate table olejki
@@ -494,5 +496,136 @@ class DBHelper(context: Context) :
         val mCursor: Cursor? = db.rawQuery("SELECT * FROM $TBL_VITAD3", null)
         return mCursor!!.count > 0
     }
+
+
+    // Insert data into table Oleje
+    fun insertOleje(oleje: OlejeModel): Long {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(ID, oleje.id)
+        contentValues.put(TYPE, oleje.type)
+        contentValues.put(DENSITY, oleje.density)
+        val success = db.insert(TBL_OLEJE, null, contentValues)
+        db.close()
+        return success
+    }
+
+    // Is Oleje table empty
+    fun isOlejeEmpty(): Boolean {
+        val db = this.readableDatabase
+        val mCursor: Cursor? = db.rawQuery("SELECT * FROM $TBL_OLEJE", null)
+        return mCursor!!.count > 0
+    }
+
+    //Get all data from table Oleje and return it as a list of OlejeModel
+    @SuppressLint("Range")
+    fun getAllOleje(): ArrayList<OlejeModel> {
+        val olejeList: ArrayList<OlejeModel> = ArrayList()
+        val selectQuery = "SELECT * FROM $TBL_OLEJE"
+        val db = this.readableDatabase
+
+        // Cursor is a pointer to a row in the table
+        val cursor: Cursor?
+        try {
+            cursor = db.rawQuery(selectQuery, null)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            db.execSQL(selectQuery)
+            return ArrayList()
+        }
+        var id: Int
+        var type: String
+        var density: Double
+
+        // Move cursor to the first row
+        if (cursor.moveToFirst()) {
+            // Loop through the cursor while it is not at the end of the table
+            do {
+                id = cursor.getInt(cursor.getColumnIndex(ID))
+                type = cursor.getString(cursor.getColumnIndex(TYPE))
+                density = cursor.getDouble(cursor.getColumnIndex(DENSITY))
+                // Create a OlejeModel object and add it to the list
+                val oleje = OlejeModel(
+                    id = id,
+                    type = type,
+                    density = density,
+                )
+                olejeList.add(oleje)
+            } while (cursor.moveToNext())
+        }
+        // Close the cursor and the database
+        cursor.close()
+        db.close()
+        return olejeList
+    }
+
+
+    // Insert data into table Olejki
+    fun insertOlejki(olejki: OlejkiModel): Long {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(ID, olejki.id)
+        contentValues.put(TYPE, olejki.type)
+        contentValues.put(DENSITY, olejki.density)
+        contentValues.put(DROPS, olejki.drops)
+        val success = db.insert(TBL_OLEJKI, null, contentValues)
+        db.close()
+        return success
+    }
+
+    // Is Olejki table empty
+    fun isOlejkiEmpty(): Boolean {
+        val db = this.readableDatabase
+        val mCursor: Cursor? = db.rawQuery("SELECT * FROM $TBL_OLEJKI", null)
+        return mCursor!!.count > 0
+    }
+
+    //get all data from table Olejki and return it as a list of OlejkiModel
+    @SuppressLint("Range")
+    fun getAllOlejki(): ArrayList<OlejkiModel> {
+        val olejkiList: ArrayList<OlejkiModel> = ArrayList()
+        val selectQuery = "SELECT * FROM $TBL_OLEJKI"
+        val db = this.readableDatabase
+
+        // Cursor is a pointer to a row in the table
+        val cursor: Cursor?
+        try {
+            cursor = db.rawQuery(selectQuery, null)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            db.execSQL(selectQuery)
+            return ArrayList()
+        }
+        var id: Int
+        var type: String
+        var density: Double
+        var drops: Double
+
+        // Move cursor to the first row
+        if (cursor.moveToFirst()) {
+            // Loop through the cursor while it is not at the end of the table
+            do {
+                id = cursor.getInt(cursor.getColumnIndex(ID))
+                type = cursor.getString(cursor.getColumnIndex(TYPE))
+                density = cursor.getDouble(cursor.getColumnIndex(DENSITY))
+                drops = cursor.getDouble(cursor.getColumnIndex(DROPS))
+                // Create a OlejkiModel object and add it to the list
+                val olejki = OlejkiModel(
+                    id = id,
+                    type = type,
+                    density = density,
+                    drops = drops
+                )
+                olejkiList.add(olejki)
+            } while (cursor.moveToNext())
+        }
+        // Close the cursor and the database
+        cursor.close()
+        db.close()
+        return olejkiList
+    }
+
 
 }

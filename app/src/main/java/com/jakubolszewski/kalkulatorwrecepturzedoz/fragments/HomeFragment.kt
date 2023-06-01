@@ -66,7 +66,7 @@ class HomeFragment : Fragment() {
         substancesList.add(
             GridViewModal(
                 substance = "Witamina A",
-                icon = R.drawable.ic_android_black_24dp
+                icon = R.drawable.vit_a
             )
         )
         substancesList.add(
