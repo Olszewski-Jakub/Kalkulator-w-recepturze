@@ -3,7 +3,6 @@ package com.jakubolszewski.kalkulatorwrecepturzedoz
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -14,14 +13,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import com.jakubolszewski.kalkulatorwrecepturzedoz.database.AlcoholConcentrationModel
-import com.jakubolszewski.kalkulatorwrecepturzedoz.database.AlcoholDegreeModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.DBHelper
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.ImportData
-import com.jakubolszewski.kalkulatorwrecepturzedoz.database.VitAModel
-import org.json.JSONArray
-import org.json.JSONObject
-import java.security.acl.Permission
 
 class MainActivity : AppCompatActivity() {
 

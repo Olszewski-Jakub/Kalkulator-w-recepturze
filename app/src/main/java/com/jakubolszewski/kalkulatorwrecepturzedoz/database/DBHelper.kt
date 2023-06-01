@@ -7,6 +7,11 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.AlcoholConcentrationModel
+import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.AlcoholDegreeModel
+import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.VitAD3Model
+import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.VitAModel
+import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.VitEModel
 
 class DBHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -36,6 +41,16 @@ class DBHelper(context: Context) :
         private const val TBL_ALCOHOL_DEGREE = "tbl_alcohol_degree"
         private const val ALCOHOL_DEGREE = "alcohol_degree"
         private const val ALCOHOL_VOLUME_DEGREE = "alcohol_volume_degree"
+
+        // Table VitA+D3
+        private const val TBL_VITAD3 = "tbl_vit_a_d3"
+
+        // Table oleje
+        private const val TBL_OLEJE = "tbl_oleje"
+
+        // Table olejki
+        private const val TBL_OLEJKI = "tbl_olejki"
+        private const val TYPE = "type"
     }
 
     //Create table SQL query
@@ -59,6 +74,21 @@ class DBHelper(context: Context) :
         val createTblAlcoholDegree =
             ("CREATE TABLE $TBL_ALCOHOL_DEGREE ($ID INTEGER PRIMARY KEY,$ALCOHOL_DEGREE TEXT,$ALCOHOL_VOLUME_DEGREE NUMERIC )")
         db?.execSQL(createTblAlcoholDegree)
+
+        // Create table VitA+D3
+        val createTblVitAD3 =
+            ("CREATE TABLE $TBL_VITAD3 ($ID INTEGER PRIMARY KEY,$DENSITY NUMERIC,$DROPS INTEGER)")
+        db?.execSQL(createTblVitAD3)
+
+        // Create table oleje
+        val createTblOleje =
+            ("CREATE TABLE $TBL_OLEJE ($ID INTEGER PRIMARY KEY,$TYPE TEXT,$DENSITY NUMERIC,$DROPS INTEGER)")
+        db?.execSQL(createTblOleje)
+
+        // CReate table olejki
+        val createTblOlejki =
+            ("CREATE TABLE $TBL_OLEJKI ($ID INTEGER PRIMARY KEY,$TYPE TEXT,$DENSITY NUMERIC,$DROPS INTEGER)")
+        db?.execSQL(createTblOlejki)
     }
 
     //Upgrade table SQL query
@@ -68,6 +98,9 @@ class DBHelper(context: Context) :
         db.execSQL("DROP TABLE IF EXISTS $TBL_ALCOHOL_CONCENTRATION")
         db.execSQL("DROP TABLE IF EXISTS $TBL_ALCOHOL_DEGREE")
         db.execSQL("DROP TABLE IF EXISTS $TBL_VITE")
+        db.execSQL("DROP TABLE IF EXISTS $TBL_VITAD3")
+        db.execSQL("DROP TABLE IF EXISTS $TBL_OLEJE")
+        db.execSQL("DROP TABLE IF EXISTS $TBL_OLEJKI")
         onCreate(db)
     }
 
@@ -204,7 +237,7 @@ class DBHelper(context: Context) :
         var id: Int
         var company: String
         var density: Double
-        var drops: Int
+        var drops: Double
         var mass_units: Double
 
         // Move cursor to the first row
@@ -214,7 +247,7 @@ class DBHelper(context: Context) :
                 id = cursor.getInt(cursor.getColumnIndex(ID))
                 company = cursor.getString(cursor.getColumnIndex(COMPANY))
                 density = cursor.getDouble(cursor.getColumnIndex(DENSITY))
-                drops = cursor.getInt(cursor.getColumnIndex(DROPS))
+                drops = cursor.getDouble(cursor.getColumnIndex(DROPS))
                 mass_units = cursor.getDouble(cursor.getColumnIndex(MASS_UNITS))
                 // Create a VitAModel object and add it to the list
                 val vitE = VitEModel(
@@ -397,5 +430,69 @@ class DBHelper(context: Context) :
         return alcoholDegreeList
     }
 
+
+    // Insert data into table Vitamin A+D3
+    fun insertVitAD3(vitaminAD3: VitAD3Model): Long {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(ID, vitaminAD3.id)
+        contentValues.put(DENSITY, vitaminAD3.density)
+        contentValues.put(DROPS, vitaminAD3.drops)
+
+
+        val success = db.insert(TBL_VITAD3, null, contentValues)
+        db.close()
+        return success
+    }
+
+    // Get all data from table Vitamin A+D3 and return it as a list of VitAD3Model
+    @SuppressLint("Range")
+    fun getAllVitAD3(): ArrayList<VitAD3Model> {
+        val vitAD3List: ArrayList<VitAD3Model> = ArrayList()
+        val selectQuery = "SELECT * FROM $TBL_VITAD3"
+        val db = this.readableDatabase
+
+        // Cursor is a pointer to a row in the table
+        val cursor: Cursor?
+        try {
+            cursor = db.rawQuery(selectQuery, null)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            db.execSQL(selectQuery)
+            return ArrayList()
+        }
+        var id: Int
+        var density: Double
+        var drops: Int
+
+        // Move cursor to the first row
+        if (cursor.moveToFirst()) {
+            // Loop through the cursor while it is not at the end of the table
+            do {
+                id = cursor.getInt(cursor.getColumnIndex(ID))
+                density = cursor.getDouble(cursor.getColumnIndex(DENSITY))
+                drops = cursor.getInt(cursor.getColumnIndex(DROPS))
+                // Create a VitAModel object and add it to the list
+                val vita = VitAD3Model(
+                    id = id,
+                    density = density,
+                    drops = drops,
+                )
+                vitAD3List.add(vita)
+            } while (cursor.moveToNext())
+        }
+        // Close the cursor and the database
+        cursor.close()
+        db.close()
+        return vitAD3List
+    }
+
+    //isVitAD3Empty
+    fun isVitAD3Empty(): Boolean {
+        val db = this.readableDatabase
+        val mCursor: Cursor? = db.rawQuery("SELECT * FROM $TBL_VITAD3", null)
+        return mCursor!!.count > 0
+    }
 
 }

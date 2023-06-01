@@ -2,7 +2,7 @@ package com.jakubolszewski.kalkulatorwrecepturzedoz.Calcualtions
 
 import android.util.Log
 import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.VitaminAGridModel
-import com.jakubolszewski.kalkulatorwrecepturzedoz.database.VitAModel
+import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.VitAModel
 import kotlin.math.round
 
 private var TAG: String = "VitaminACalculations"

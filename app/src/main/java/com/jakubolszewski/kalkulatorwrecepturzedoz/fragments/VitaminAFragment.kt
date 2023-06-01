@@ -17,7 +17,7 @@ import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.VitaminAGridModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.Calcualtions.VitaminACalculations
 import com.jakubolszewski.kalkulatorwrecepturzedoz.R
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.DBHelper
-import com.jakubolszewski.kalkulatorwrecepturzedoz.database.VitAModel
+import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.VitAModel
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"

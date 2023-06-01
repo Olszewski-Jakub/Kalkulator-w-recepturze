@@ -1,4 +1,4 @@
-package com.jakubolszewski.kalkulatorwrecepturzedoz.database
+package com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models
 
 data class AlcoholConcentrationModel(
     var id: Int,

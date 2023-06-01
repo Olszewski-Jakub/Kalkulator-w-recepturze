@@ -18,7 +18,7 @@ import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.VitaminAGridModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.Calcualtions.VitaminACalculations
 import com.jakubolszewski.kalkulatorwrecepturzedoz.R
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.DBHelper
-import com.jakubolszewski.kalkulatorwrecepturzedoz.database.VitAModel
+import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.VitAModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

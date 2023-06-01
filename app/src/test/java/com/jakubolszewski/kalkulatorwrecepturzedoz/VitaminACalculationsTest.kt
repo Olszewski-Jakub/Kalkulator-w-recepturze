@@ -2,8 +2,7 @@ package com.jakubolszewski.kalkulatorwrecepturzedoz
 
 import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.VitaminAGridModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.Calcualtions.VitaminACalculations
-import com.jakubolszewski.kalkulatorwrecepturzedoz.database.DBHelper
-import com.jakubolszewski.kalkulatorwrecepturzedoz.database.VitAModel
+import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.VitAModel
 import org.junit.Test
 import org.junit.Assert.*
 

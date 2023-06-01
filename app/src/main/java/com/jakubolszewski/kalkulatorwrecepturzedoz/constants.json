@@ -31,10 +31,29 @@
       "drops": "-1"
     }
   },
-  "vit_A_D3": {},
+  "vit_A_D3": {
+    "density": "1.09",
+    "drops": "34"
+  },
   "vit_Devicap": {},
-  "oleje": {},
-  "olejki": {},
+  "oleje": {
+    "oleum_rapae": "0.917",
+    "oleum_ricini": "0.98"
+  },
+  "olejki": {
+    "mint": {
+      "density": "0.9026",
+      "drops": "0.019"
+    },
+    "lavender": {
+      "density": "0.8855",
+      "drops": "0.019"
+    },
+    "eucalyptus": {
+      "density": "0.885",
+      "drops": "0.019"
+    }
+  },
   "alkohol_concentration": {
     "96.9°(95.16mm)": "95.16",
     "96.8°(95.01mm)": "95.01",

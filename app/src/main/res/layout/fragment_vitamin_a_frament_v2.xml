@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.VitaminAFrament_v2">
 
     <RelativeLayout
@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar"
-            android:layout_marginTop="19dp"
+            android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -62,44 +62,46 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:text="@string/wybierz_producenta"
                     android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:layout_gravity="center" />
+                    android:textSize="20sp" />
 
                 <com.google.android.material.button.MaterialButtonToggleGroup xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/toggle_button_group_company"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    style="@style/Widget.Material3.MaterialButtonToggleGroup"
                     app:singleSelection="true">
 
+
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_hasco"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Hasco"
-                        android:textColor="@color/doz_orange"
-                        android:id="@+id/button_hasco" />
+                        android:textColor="@color/doz_orange" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_medana"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Medana"
-                        android:textColor="@color/doz_orange"
-                        android:id="@+id/button_medana" />
+                        android:textColor="@color/doz_orange" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_fagron"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Fagron"
-                        android:textColor="@color/doz_orange"
-                        android:id="@+id/button_fagron" />
+                        android:textColor="@color/doz_orange" />
 
                 </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -108,16 +110,17 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="5dp">
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:text="@string/wybierz_producenta"
                     android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:layout_gravity="center" />
+                    android:textSize="20sp" />
 
                 <com.google.android.material.button.MaterialButtonToggleGroup xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/toggle_button_group_units"
@@ -127,28 +130,28 @@
                     app:singleSelection="true">
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_vit_a_liq_g"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Vit A liq (g)"
-                        android:textColor="@color/doz_orange"
-                        android:id="@+id/button_vit_a_liq_g" />
+                        android:textColor="@color/doz_orange" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_vit_a_liq_ml"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Vit A liq (ml)"
-                        android:textColor="@color/doz_orange"
-                        android:id="@+id/button_vit_a_liq_ml" />
+                        android:textColor="@color/doz_orange" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_vit_a_jm"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Vit A (j.m.)"
-                        android:textColor="@color/doz_orange"
-                        android:id="@+id/button_vit_a_jm" />
+                        android:textColor="@color/doz_orange" />
 
                 </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -158,7 +161,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
@@ -193,6 +196,7 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
                 android:background="@drawable/rounded_button"
+                android:textStyle="bold"
                 android:text="Oblicz" />
 
             <GridView
