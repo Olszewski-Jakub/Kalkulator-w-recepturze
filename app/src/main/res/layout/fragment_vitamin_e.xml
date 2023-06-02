@@ -133,7 +133,7 @@
                             style="?attr/materialButtonOutlinedStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="liq (q)"
+                            android:text="liq (g)"
                             android:textColor="@color/doz_orange" />
 
                         <com.google.android.material.button.MaterialButton
