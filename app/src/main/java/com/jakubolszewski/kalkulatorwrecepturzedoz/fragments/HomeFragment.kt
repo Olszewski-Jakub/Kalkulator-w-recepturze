@@ -105,12 +105,12 @@ class HomeFragment : Fragment() {
                 icon = R.drawable.ic_android_black_24dp
             )
         )
-        substancesList.add(
-            GridViewModal(
-                substance = "Witamia A v2",
-                icon = R.drawable.ic_android_black_24dp
-            )
-        )
+//        substancesList.add(
+//            GridViewModal(
+//                substance = "Witamia A v2",
+//                icon = R.drawable.ic_android_black_24dp
+//            )
+//        )
         val menuAdapter = context?.let { GridRVAdapter(courseList = substancesList, context = it) }
 
         //Set the adapter to the grid view
@@ -126,7 +126,7 @@ class HomeFragment : Fragment() {
             when (position) {
                 //Vitamin A
                 0 -> if (isActive(position = 0, state = buttonState)) {
-                    findNavController().navigate(R.id.action_homeFragment_to_vitaminAFragment)
+                    findNavController().navigate(R.id.action_homeFragment_to_vitaminAFrament_v2)
                     active = true
                 }
                 //Vitamin E
@@ -160,7 +160,7 @@ class HomeFragment : Fragment() {
                     active = true
                 }
 
-                7 -> findNavController().navigate(R.id.action_homeFragment_to_vitaminAFrament_v2)
+//                7 -> findNavController().navigate(R.id.action_homeFragment_to_vitaminAFrament_v2)
             }
             //Replace the fragment
             val transaction = parentFragmentManager.beginTransaction()
