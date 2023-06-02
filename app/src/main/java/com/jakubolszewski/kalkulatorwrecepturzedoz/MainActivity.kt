@@ -57,13 +57,13 @@ class MainActivity : AppCompatActivity() {
                     Log.d(TAG, "Fetch and activate succeeded")
 
                     //Save boolean values according button states to SharedPreferences
-                    val b_witamina_A: Boolean = remoteConfig.getBoolean("Witamina_A");
-                    val b_witamina_E: Boolean = remoteConfig.getBoolean("Witamina_E");
-                    val b_witamina_A_D3: Boolean = remoteConfig.getBoolean("Witamina_A_D3");
-                    val b_Devicap: Boolean = remoteConfig.getBoolean("Devicap");
-                    val b_Spirytus: Boolean = remoteConfig.getBoolean("Spirytus");
-                    val b_Olejki: Boolean = remoteConfig.getBoolean("Olejki");
-                    val b_Oleje: Boolean = remoteConfig.getBoolean("Oleje");
+                    val b_witamina_A: Boolean = remoteConfig.getBoolean("Witamina_A")
+                    val b_witamina_E: Boolean = remoteConfig.getBoolean("Witamina_E")
+                    val b_witamina_A_D3: Boolean = remoteConfig.getBoolean("Witamina_A_D3")
+                    val b_Devicap: Boolean = remoteConfig.getBoolean("Devicap")
+                    val b_Spirytus: Boolean = remoteConfig.getBoolean("Spirytus")
+                    val b_Olejki: Boolean = remoteConfig.getBoolean("Olejki")
+                    val b_Oleje: Boolean = remoteConfig.getBoolean("Oleje")
                     val prefs =
                         PreferenceManager.getDefaultSharedPreferences(this) // getActivity() for Fragment
 

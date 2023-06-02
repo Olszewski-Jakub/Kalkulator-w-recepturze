@@ -1,4 +1,4 @@
-package com.jakubolszewski.kalkulatorwrecepturzedoz.Calcualtions
+package com.jakubolszewski.kalkulatorwrecepturzedoz.calculations
 
 import android.util.Log
 import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.VitaminAGridModel

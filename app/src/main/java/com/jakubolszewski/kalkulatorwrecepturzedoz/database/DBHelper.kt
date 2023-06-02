@@ -240,7 +240,6 @@ class DBHelper(context: Context) :
         var company: String
         var density: Double
         var drops: Double
-        var mass_units: Double
 
         // Move cursor to the first row
         if (cursor.moveToFirst()) {
@@ -250,7 +249,6 @@ class DBHelper(context: Context) :
                 company = cursor.getString(cursor.getColumnIndex(COMPANY))
                 density = cursor.getDouble(cursor.getColumnIndex(DENSITY))
                 drops = cursor.getDouble(cursor.getColumnIndex(DROPS))
-                mass_units = cursor.getDouble(cursor.getColumnIndex(MASS_UNITS))
                 // Create a VitAModel object and add it to the list
                 val vitE = VitEModel(
                     id = id,

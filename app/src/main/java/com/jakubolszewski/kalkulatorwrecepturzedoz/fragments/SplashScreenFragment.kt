@@ -2,7 +2,6 @@ package com.jakubolszewski.kalkulatorwrecepturzedoz.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +38,7 @@ class SplashScreenFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         var view: View = inflater.inflate(R.layout.fragment_splash_screen, container, false)
         var progressBar: ProgressBar = view.findViewById(R.id.progressBar)

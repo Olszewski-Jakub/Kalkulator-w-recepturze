@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.VitaminAGridAdapter
 import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.VitaminAGridModel
-import com.jakubolszewski.kalkulatorwrecepturzedoz.Calcualtions.VitaminACalculations
 import com.jakubolszewski.kalkulatorwrecepturzedoz.R
+import com.jakubolszewski.kalkulatorwrecepturzedoz.calculations.VitaminACalculations
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.DBHelper
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.VitAModel
 
@@ -80,7 +80,7 @@ class VitaminAFragment : Fragment() {
         )
         companyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        companySpinner.setAdapter(companyAdapter)
+        companySpinner.adapter = companyAdapter
 
         val unitAdapter: ArrayAdapter<String> = ArrayAdapter<String>(
             requireActivity(),
@@ -89,7 +89,7 @@ class VitaminAFragment : Fragment() {
         )
         unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        unitSpinner.setAdapter(unitAdapter)
+        unitSpinner.adapter = unitAdapter
 
         gridView = view.findViewById(R.id.grid_vit_a)
         resultList = ArrayList()

@@ -1,6 +1,8 @@
 package com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +14,7 @@ import com.jakubolszewski.kalkulatorwrecepturzedoz.R
 internal class GridRVAdapter(
 
     private val courseList: List<GridViewModal>,
-    private val context: Context
+    private val context: Context,
 ) :
     BaseAdapter() {
     private var layoutInflater: LayoutInflater? = null
@@ -31,7 +33,8 @@ internal class GridRVAdapter(
         return 0
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
+    @SuppressLint("InflateParams")
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var convertView = convertView
         if (layoutInflater == null) {
             layoutInflater =
@@ -39,13 +42,24 @@ internal class GridRVAdapter(
         }
         // on the below line we are checking if convert view is null.
         // If it is null we are initializing it.
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val columns = prefs.getInt("grid_columns", 2)
         if (convertView == null) {
-            convertView = layoutInflater!!.inflate(R.layout.gridview_item, null)
+
+            when (columns) {
+                1 -> convertView = layoutInflater!!.inflate(R.layout.gridview_item_1, null)
+                2 -> convertView = layoutInflater!!.inflate(R.layout.gridview_item_2, null)
+                3 -> convertView = layoutInflater!!.inflate(R.layout.gridview_item_3, null)
+                4 -> convertView = layoutInflater!!.inflate(R.layout.gridview_item_4, null)
+                else -> convertView = layoutInflater!!.inflate(R.layout.gridview_item_2, null)
+            }
+
+
         }
         iconIV = convertView!!.findViewById(R.id.icon)
         substanceTV = convertView.findViewById(R.id.substance)
         iconIV.setImageResource(courseList.get(position).icon)
-        substanceTV.setText(courseList.get(position).substance)
+        substanceTV.text = courseList.get(position).substance
         return convertView
     }
 }

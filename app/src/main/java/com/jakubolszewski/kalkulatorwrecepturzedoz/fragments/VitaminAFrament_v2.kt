@@ -1,7 +1,6 @@
 package com.jakubolszewski.kalkulatorwrecepturzedoz.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,14 +8,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.GridView
 import android.widget.ImageView
-import android.widget.Spinner
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.VitaminAGridAdapter
 import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.VitaminAGridModel
-import com.jakubolszewski.kalkulatorwrecepturzedoz.Calcualtions.VitaminACalculations
 import com.jakubolszewski.kalkulatorwrecepturzedoz.R
+import com.jakubolszewski.kalkulatorwrecepturzedoz.calculations.VitaminACalculations
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.DBHelper
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.VitAModel
 
@@ -40,8 +40,6 @@ class VitaminAFrament_v2 : Fragment() {
 
     private lateinit var gridView: GridView
     private lateinit var resultList: ArrayList<VitaminAGridModel>
-    private lateinit var companySpinner: Spinner
-    private lateinit var unitSpinner: Spinner
     private lateinit var calcButton: Button
     private lateinit var editText: EditText
     private lateinit var backImgView: ImageView
@@ -75,9 +73,31 @@ class VitaminAFrament_v2 : Fragment() {
         companyGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {
                 when (checkedId) {
-                    R.id.button_hasco -> company = 0
-                    R.id.button_medana -> company = 1
-                    R.id.button_fagron -> company = 2
+                    R.id.button_hasco -> {
+                        val btn_g: MaterialButton = view.findViewById(R.id.button_vit_a_liq_g)
+                        val btn_ml: MaterialButton = view.findViewById(R.id.button_vit_a_liq_ml)
+                        btn_g.visibility = View.VISIBLE
+                        btn_ml.visibility = View.VISIBLE
+                        company = 0
+                    }
+
+                    R.id.button_medana -> {
+                        val btn_g: MaterialButton = view.findViewById(R.id.button_vit_a_liq_g)
+                        val btn_ml: MaterialButton = view.findViewById(R.id.button_vit_a_liq_ml)
+                        btn_g.visibility = View.VISIBLE
+                        btn_ml.visibility = View.VISIBLE
+                        company = 1
+                    }
+
+                    R.id.button_fagron -> {
+                        company = 2
+                        val btn_g: MaterialButton = view.findViewById(R.id.button_vit_a_liq_g)
+                        val btn_ml: MaterialButton = view.findViewById(R.id.button_vit_a_liq_ml)
+                        val btn_jm: MaterialButton = view.findViewById(R.id.button_vit_a_jm)
+                        btn_g.visibility = View.GONE
+                        btn_ml.visibility = View.GONE
+                        btn_jm.isChecked = true
+                    }
                 }
             }
         }
@@ -92,7 +112,7 @@ class VitaminAFrament_v2 : Fragment() {
         }
 
         //Start the calculations with specified parameters on button click
-        calcButton.setOnClickListener { view ->
+        calcButton.setOnClickListener { _ ->
             //Check if all fields are filled
             if (editText.text.isNotBlank()) {
                 val amount: Double = editText.text.toString().toDouble()

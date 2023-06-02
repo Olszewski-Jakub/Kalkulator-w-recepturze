@@ -8,8 +8,8 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.jakubolszewski.kalkulatorwrecepturzedoz.R
 
-internal class VitaminAGridAdapter(
-    private val resultsList: List<VitaminAGridModel>,
+class VitaminEGridAdapter(
+    private val resultsList: List<VitaminEGridModel>,
     private val context: Context
 ) :
 //BaseAdapter is a class that is used to create a custom adapter for a listview
@@ -20,7 +20,6 @@ internal class VitaminAGridAdapter(
     private lateinit var mass_TV: TextView
     private lateinit var volume_TV: TextView
     private lateinit var drops_TV: TextView
-    private lateinit var massunits_TV: TextView
     private lateinit var howMuchTosell_TV: TextView
 
     //This method returns the number of items in the list
@@ -39,7 +38,7 @@ internal class VitaminAGridAdapter(
     }
 
     //This method returns the view at a given position
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
         var convertView = convertView
         //Get the current item from ListView if layoutInflater is not null
         if (layoutInflater == null) {
@@ -48,7 +47,7 @@ internal class VitaminAGridAdapter(
         }
         //Inflate the layout for each list row if convertView is null
         if (convertView == null) {
-            convertView = layoutInflater!!.inflate(R.layout.viatmin_a_gridview_item, null)
+            convertView = layoutInflater!!.inflate(R.layout.vitamin_e_gridview_item, null)
         }
         //Get textviews from the layout
         main_vit_TV = convertView!!.findViewById(R.id.textView_mainVit)
@@ -56,7 +55,6 @@ internal class VitaminAGridAdapter(
         mass_TV = convertView.findViewById(R.id.textView_calculation_mass)
         volume_TV = convertView.findViewById(R.id.textView_calculation_volume)
         drops_TV = convertView.findViewById(R.id.textView_calculation_drops)
-        massunits_TV = convertView.findViewById(R.id.textView_calculation_massunits)
         howMuchTosell_TV = convertView.findViewById(R.id.textView_howMuchToSell)
 
         //Set text for textviews
@@ -65,7 +63,6 @@ internal class VitaminAGridAdapter(
         mass_TV.text = resultsList[position].mass
         volume_TV.text = resultsList[position].volume
         drops_TV.text = resultsList[position].drops
-        massunits_TV.text = resultsList[position].massunits
         howMuchTosell_TV.text = resultsList[position].howMuchTosell
 
 

@@ -49,6 +49,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
 
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,56 +66,48 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:text="Ilość kolum"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="15dp"
                     android:orientation="horizontal"
-                    android:weightSum="3">
-
-                    <ImageView
-                        android:id="@+id/minus_one"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@android:color/darker_gray"
-                        android:src="@drawable/baseline_exposure_neg_1_24" />
+                    android:weightSum="3"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
 
                     <TextView
-                        android:id="@+id/number_of_columns"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:gravity="center"
-                        android:text="2"
+                        android:text="Ilość kolum"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/amount_of_rows"
+                        android:layout_weight="2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="20sp" />
 
-                    <ImageView
-                        android:id="@+id/plus_one"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@android:color/darker_gray"
-                        android:src="@drawable/baseline_exposure_plus_1_24" />
-
-
                 </LinearLayout>
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/discreteSlider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:valueFrom="1"
+                    android:valueTo="4"
+                    android:stepSize="1"
+                    android:value="2" />
 
             </LinearLayout>
 
-
         </androidx.cardview.widget.CardView>
-
 
         <TextView
             android:id="@+id/version_textView"
