@@ -8,3 +8,6 @@ git:
 	git add .
 	git commit -m "$m"
 	git push -u origin main
+
+mkdocs:
+	python -m mkdocs serve
