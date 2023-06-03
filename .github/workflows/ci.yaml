@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - master
-      - development
       - main
+      - development
 permissions:
   contents: write
 jobs:
@@ -15,9 +15,12 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: 3.x
-      - uses: actions/cache@v2
+      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+      - uses: actions/cache@v3
         with:
-          key: ${{ github.ref }}
+          key: mkdocs-material-${{ env.cache_id }}
           path: .cache
+          restore-keys: |
+            mkdocs-material-
       - run: pip install mkdocs-material
       - run: mkdocs gh-deploy --force
