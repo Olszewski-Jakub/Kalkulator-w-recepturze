@@ -1,0 +1,79 @@
+site_name: Kalkulator w recepturze Docs
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.tabs.annotate
+    - content.code.copy
+    - content.code.annotate
+  language: en
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to Dark Mode
+      primary: teal
+      accent: purple
+    - scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to Light Mode
+      primary: teal
+      accent: lime
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Olszewski-Jakub
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/jakub-olszewski-926b4b175/
+
+nav:
+  - Home:
+      index.md
+  - Documentation:
+      docs.md
+  - About:
+      about.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - admonition
+  - pymdownx.arithmatex:
+      generic: true
+  - footnotes
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.tilde
+  - pymdownx.mark
+  - attr_list
+  - md_in_html
+  - def_list
+  - tables
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+
+
+
+copyright: |
+  &copy; 2023 <a href="https://github.com/Olszewski-Jakub" target"_blank" rel="noopener">Jakub Olszewski</a>
