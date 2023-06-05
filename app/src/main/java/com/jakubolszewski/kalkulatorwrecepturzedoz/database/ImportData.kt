@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.AlcoholConcentrationModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.AlcoholDegreeModel
+import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.DevicapModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.OlejeModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.OlejkiModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.VitAD3Model
@@ -92,6 +93,10 @@ class ImportData(mContext: Context) {
             JSONObject(olejkiMap["eucalyptus"].toString()).toMap()
         )
 
+        val devicapData = jsonMap.getValue("vit_Devicap").toString().toString()
+        val devicapJSONObject = JSONObject(devicapData)
+        val devicapMap = devicapJSONObject.toMap()
+        convertDevicap(devicapMap)
     }
 
     private fun convertVItA(
@@ -261,5 +266,15 @@ class ImportData(mContext: Context) {
         dbHelper.insertOlejki(olejkiModel_mint)
         dbHelper.insertOlejki(olejkiModel_lavender)
         dbHelper.insertOlejki(olejkiModel_eucalyptus)
+    }
+
+    private fun convertDevicap(devicapMap: Map<String, *>) {
+        val devicapModel = DevicapModel(
+            id = 0,
+            density = devicapMap["density"].toString().toDouble(),
+            drops = devicapMap["drops"].toString().toInt(),
+            massUnits = devicapMap["mass_units"].toString().toDouble()
+        )
+        dbHelper.insertDevicap(devicapModel)
     }
 }

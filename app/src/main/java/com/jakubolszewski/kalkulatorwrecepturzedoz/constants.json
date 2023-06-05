@@ -35,7 +35,11 @@
     "density": "1.09",
     "drops": "34"
   },
-  "vit_Devicap": {},
+  "vit_Devicap": {
+    "density": "1.1",
+    "drops": "30",
+    "mass_units": "15000.0"
+  },
   "oleje": {
     "oleum_rapae": "0.917",
     "oleum_ricini": "0.98"

@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.AlcoholConcentrationModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.AlcoholDegreeModel
+import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.DevicapModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.OlejeModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.OlejkiModel
 import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.VitAD3Model
@@ -53,6 +54,9 @@ class DBHelper(context: Context) :
         // Table olejki
         private const val TBL_OLEJKI = "tbl_olejki"
         private const val TYPE = "type"
+
+        // Table Devicap
+        private const val TBL_DEVICAP = "tbl_devicap"
     }
 
     //Create table SQL query
@@ -91,6 +95,11 @@ class DBHelper(context: Context) :
         val createTblOlejki =
             ("CREATE TABLE $TBL_OLEJKI ($ID INTEGER PRIMARY KEY,$TYPE TEXT,$DENSITY NUMERIC,$DROPS INTEGER)")
         db?.execSQL(createTblOlejki)
+
+        // Create table Devicap
+        val createTblDevicap =
+            ("CREATE TABLE $TBL_DEVICAP ($ID INTEGER PRIMARY KEY,$DENSITY NUMERIC,$DROPS INTEGER, $MASS_UNITS NUMERIC)")
+        db?.execSQL(createTblDevicap)
     }
 
     //Upgrade table SQL query
@@ -103,6 +112,7 @@ class DBHelper(context: Context) :
         db.execSQL("DROP TABLE IF EXISTS $TBL_VITAD3")
         db.execSQL("DROP TABLE IF EXISTS $TBL_OLEJE")
         db.execSQL("DROP TABLE IF EXISTS $TBL_OLEJKI")
+        db.execSQL("DROP TABLE IF EXISTS $TBL_DEVICAP")
         onCreate(db)
     }
 
@@ -625,5 +635,70 @@ class DBHelper(context: Context) :
         return olejkiList
     }
 
+    // Insert data into table Devicap
+    fun insertDevicap(devicap: DevicapModel): Long {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(ID, devicap.id)
+        contentValues.put(DENSITY, devicap.density)
+        contentValues.put(DROPS, devicap.drops)
+        contentValues.put(MASS_UNITS, devicap.massUnits)
+        val success = db.insert(TBL_DEVICAP, null, contentValues)
+        db.close()
+        return success
+    }
 
+    // Is Devicap table empty
+    fun isDevicapEmpty(): Boolean {
+        val db = this.readableDatabase
+        val mCursor: Cursor? = db.rawQuery("SELECT * FROM $TBL_DEVICAP", null)
+        return mCursor!!.count > 0
+    }
+
+    //get all data from table Devicap and return it as a list of DevicapModel
+    @SuppressLint("Range")
+    fun getAllDevicap(): ArrayList<DevicapModel> {
+        val devicapList: ArrayList<DevicapModel> = ArrayList()
+        val selectQuery = "SELECT * FROM $TBL_DEVICAP"
+        val db = this.readableDatabase
+
+        // Cursor is a pointer to a row in the table
+        val cursor: Cursor?
+        try {
+            cursor = db.rawQuery(selectQuery, null)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            db.execSQL(selectQuery)
+            return ArrayList()
+        }
+        var id: Int
+        var type: String
+        var density: Double
+        var drops: Int
+        var massUnits: Double
+
+        // Move cursor to the first row
+        if (cursor.moveToFirst()) {
+            // Loop through the cursor while it is not at the end of the table
+            do {
+                id = cursor.getInt(cursor.getColumnIndex(ID))
+                density = cursor.getDouble(cursor.getColumnIndex(DENSITY))
+                drops = cursor.getInt(cursor.getColumnIndex(DROPS))
+                massUnits = cursor.getDouble(cursor.getColumnIndex(MASS_UNITS))
+                // Create a OlejkiModel object and add it to the list
+                val devicap = DevicapModel(
+                    id = id,
+                    density = density,
+                    drops = drops,
+                    massUnits = massUnits
+                )
+                devicapList.add(devicap)
+            } while (cursor.moveToNext())
+        }
+        // Close the cursor and the database
+        cursor.close()
+        db.close()
+        return devicapList
+    }
 }
