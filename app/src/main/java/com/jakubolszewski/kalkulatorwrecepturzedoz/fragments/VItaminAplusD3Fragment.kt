@@ -10,6 +10,7 @@ import android.widget.GridView
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.VitaminAD3GridAdapter
 import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.VitaminAD3GridModel
@@ -89,7 +90,9 @@ class VItaminAplusD3Fragment : Fragment() {
                 gridView.adapter = menuAdapter
             }
         }
-
+        backImgView.setOnClickListener {
+            findNavController().navigate(R.id.action_VItaminAplusD3Fragment_to_homeFragment)
+        }
         return view
     }
 

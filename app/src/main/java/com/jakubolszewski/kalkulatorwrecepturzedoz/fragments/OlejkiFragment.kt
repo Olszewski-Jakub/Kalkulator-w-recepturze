@@ -4,57 +4,117 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.GridView
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.button.MaterialButtonToggleGroup
+import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.OlejkiGridAdapter
+import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.OlejkiGridModel
+import com.jakubolszewski.kalkulatorwrecepturzedoz.Adapters.VitaminAGridAdapter
 import com.jakubolszewski.kalkulatorwrecepturzedoz.R
+import com.jakubolszewski.kalkulatorwrecepturzedoz.calculations.OlejkiCalculations
+import com.jakubolszewski.kalkulatorwrecepturzedoz.database.DBHelper
+import com.jakubolszewski.kalkulatorwrecepturzedoz.database.Models.OlejkiModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [OlejkiFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class OlejkiFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    private lateinit var dbHelper: DBHelper
+    private lateinit var gridView: GridView
+    private lateinit var resultList: ArrayList<OlejkiGridModel>
+    private lateinit var calcButton: Button
+    private lateinit var editText: EditText
+    private lateinit var backImgView: ImageView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_olejki, container, false)
-    }
+        val view: View = inflater.inflate(R.layout.fragment_olejki, container, false)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment OlejkiFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            OlejkiFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        dbHelper = activity?.let { DBHelper(it) }!!
+        var olejkiList: ArrayList<OlejkiModel> = ArrayList()
+        olejkiList = dbHelper.getAllOlejki()
+
+        calcButton = view.findViewById(R.id.button_calc)
+        editText = view.findViewById(R.id.editText_amount)
+        backImgView = view.findViewById(R.id.imageView_arrow)
+
+        gridView = view.findViewById(R.id.grid_vit_a)
+        resultList = ArrayList()
+
+        val companyGroup: MaterialButtonToggleGroup =
+            view.findViewById(R.id.toggle_button_group_type)
+        val unitsGroup: MaterialButtonToggleGroup =
+            view.findViewById(R.id.toggle_button_group_units)
+        var type: Int = -1
+        var unit: Int = -1
+
+        companyGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                when (checkedId) {
+                    R.id.button_mint -> {
+                        type = 0
+                    }
+
+                    R.id.button_lavender -> {
+                        type = 1
+                    }
+
+                    R.id.button_eucalyptus -> {
+                        type = 2
+                    }
                 }
             }
+        }
+        unitsGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                when (checkedId) {
+                    R.id.button_olejki_g -> unit = 0
+                    R.id.button_olejki_ml -> unit = 1
+                    R.id.button_olejki_krople -> unit = 2
+                }
+            }
+        }
+
+        //Start the calculations with specified parameters on button click
+        calcButton.setOnClickListener { _ ->
+            //Check if all fields are filled
+            if (editText.text.isNotBlank()) {
+                val amount: Double = editText.text.toString().toDouble()
+
+                Toast.makeText(context, type.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, unit.toString(), Toast.LENGTH_SHORT).show()
+                resultList.clear()
+                val Olejki: Map<String, OlejkiGridModel> = OlejkiCalculations(
+                    type = type,
+                    units = unit,
+                    amount = amount,
+                    olejkiList = olejkiList
+                ).calculate()
+
+                Olejki["olejek"]?.let {
+                    resultList.add(
+                        it
+                    )
+                }
+
+                val menuAdapter =
+                    context?.let { OlejkiGridAdapter(resultsList = resultList, context = it) }
+
+                gridView.adapter = menuAdapter
+            }
+
+
+        }
+        //Go back to main menu
+        backImgView.setOnClickListener {
+            findNavController().navigate(R.id.action_olejkiFragment_to_homeFragment)
+        }
+
+        return view
     }
+
 }
