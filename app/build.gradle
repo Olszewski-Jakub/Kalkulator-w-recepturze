@@ -37,6 +37,15 @@ android {
     subprojects {
         apply plugin: 'org.jetbrains.dokka'
     }
+    sourceSets {
+        main {
+            res {
+                srcDirs 'src\\main\\res',
+                        'src\\main\\res\\layout\\girdview',
+                        'src\\main\\res\\layout\\fragments'
+            }
+        }
+    }
 }
 
 dependencies {
